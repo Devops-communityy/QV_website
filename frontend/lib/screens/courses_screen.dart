@@ -102,7 +102,7 @@ class _PageHero extends StatelessWidget {
             style: QVTheme.display2(), textAlign: TextAlign.center),
         const SizedBox(height: 10),
         Text(
-          "We're a group of working DevOps engineers — not trainers who just read slides.\nEvery concept we teach, we use in production every day.",
+          "We're a group of working DevOps engineers  -not trainers who just read slides.\nEvery concept we teach, we use in production every day.",
           style: QVTheme.body(color: QVTheme.txtMuted),
           textAlign: TextAlign.center,
         ),
@@ -377,15 +377,15 @@ class _AWSSDetailContent extends StatelessWidget {
   const _AWSSDetailContent();
 
   static const parts = [
-    ('PART I', 'DevOps Foundations', ['Module 1: DevOps Intro & Culture — SDLC, Waterfall vs Agile, CI/CD', 'Module 2: Linux Administration — Architecture, permissions, networking', 'Module 3: Shell Scripting — Variables, loops, cron jobs, automation scripts', 'Module 4: Python for DevOps — OOP, file management, automation', 'Module 5: Networking Fundamentals — OSI model, TCP/IP, subnetting, DNS']),
-    ('PART II', 'Source Code & Build Management', ['Module 6: Git & Version Control — Branching, rebasing, PR workflow, Git hooks', 'Module 7: Maven Build Automation — pom.xml, lifecycle, multi-module projects', 'Module 8: Nexus & JFrog Artifactory — Release vs snapshot, artifact repos', 'Module 9: SonarQube Code Quality — SAST, PMD, JaCoCo, pipeline integration']),
-    ('PART III', 'CI/CD & Automation', ['Module 10: Jenkins — Pipelines (scripted + declarative), multi-branch, shared libs', 'Module 11: AWS CodePipeline, CodeBuild & CodeDeploy — end-to-end AWS native CI/CD']),
-    ('PART IV', 'Configuration Management', ['Module 12: Ansible — Inventory, playbooks, roles, vault, Jinja2, rolling deployments']),
-    ('PART V', 'Containerization & Orchestration', ['Module 13: Docker — Dockerfile, multi-stage builds, networking, volumes, ECR', 'Module 14: Kubernetes — Pods, deployments, RBAC, HPA, Helm, ArgoCD, EKS']),
-    ('PART VI', 'Infrastructure as Code', ['Module 15: Terraform — HCL, providers (AWS/Docker/K8s), remote state, modules', 'Module 16: Packer — AMI automation, Ansible provisioners']),
-    ('PART VII', 'Monitoring & Observability', ['Module 17: Prometheus & Grafana — Dashboards, alerting, K8s integration', 'Module 18: AWS CloudWatch, CloudTrail & Systems Manager']),
-    ('PART VIII', 'AWS Cloud Services', ['Modules 19–20: Cloud Fundamentals & EC2 — AMIs, pricing, security groups', 'Modules 21–22: IAM & VPC — Users/roles/policies, MFA, subnets, NAT', 'Modules 23–24: S3 & EBS — Storage classes, lifecycle, static hosting', 'Modules 25–26: ELB & Auto Scaling — ALB/NLB, target groups, CloudWatch', 'Modules 27–28: RDS, Route 53 & CloudFront — Multi-AZ, read replicas, CDN', 'Modules 29–31: Lambda, CloudFormation & AWS Bedrock — Serverless, IaC, AI']),
-    ('PART IX', 'Advanced Topics', ['Module 32: DevSecOps — SAST, DAST, container security, shift-left', 'Module 33: Site Reliability Engineering — SLOs, incident response, canary', 'Module 34: AI Tools for DevOps — Code Rabbit, Codeium, MCP']),
+    ('PART I', 'DevOps Foundations', ['Module 1: DevOps Intro & Culture  -SDLC, Waterfall vs Agile, CI/CD', 'Module 2: Linux Administration  -Architecture, permissions, networking', 'Module 3: Shell Scripting  -Variables, loops, cron jobs, automation scripts', 'Module 4: Python for DevOps  -OOP, file management, automation', 'Module 5: Networking Fundamentals  -OSI model, TCP/IP, subnetting, DNS']),
+    ('PART II', 'Source Code & Build Management', ['Module 6: Git & Version Control  -Branching, rebasing, PR workflow, Git hooks', 'Module 7: Maven Build Automation  -pom.xml, lifecycle, multi-module projects', 'Module 8: Nexus & JFrog Artifactory  -Release vs snapshot, artifact repos', 'Module 9: SonarQube Code Quality  -SAST, PMD, JaCoCo, pipeline integration']),
+    ('PART III', 'CI/CD & Automation', ['Module 10: Jenkins  -Pipelines (scripted + declarative), multi-branch, shared libs', 'Module 11: AWS CodePipeline, CodeBuild & CodeDeploy  -end-to-end AWS native CI/CD']),
+    ('PART IV', 'Configuration Management', ['Module 12: Ansible  -Inventory, playbooks, roles, vault, Jinja2, rolling deployments']),
+    ('PART V', 'Containerization & Orchestration', ['Module 13: Docker  -Dockerfile, multi-stage builds, networking, volumes, ECR', 'Module 14: Kubernetes  -Pods, deployments, RBAC, HPA, Helm, ArgoCD, EKS']),
+    ('PART VI', 'Infrastructure as Code', ['Module 15: Terraform  -HCL, providers (AWS/Docker/K8s), remote state, modules', 'Module 16: Packer  -AMI automation, Ansible provisioners']),
+    ('PART VII', 'Monitoring & Observability', ['Module 17: Prometheus & Grafana  -Dashboards, alerting, K8s integration', 'Module 18: AWS CloudWatch, CloudTrail & Systems Manager']),
+    ('PART VIII', 'AWS Cloud Services', ['Modules 19–20: Cloud Fundamentals & EC2  -AMIs, pricing, security groups', 'Modules 21–22: IAM & VPC  -Users/roles/policies, MFA, subnets, NAT', 'Modules 23–24: S3 & EBS  -Storage classes, lifecycle, static hosting', 'Modules 25–26: ELB & Auto Scaling  -ALB/NLB, target groups, CloudWatch', 'Modules 27–28: RDS, Route 53 & CloudFront  -Multi-AZ, read replicas, CDN', 'Modules 29–31: Lambda, CloudFormation & AWS Bedrock  -Serverless, IaC, AI']),
+    ('PART IX', 'Advanced Topics', ['Module 32: DevSecOps  -SAST, DAST, container security, shift-left', 'Module 33: Site Reliability Engineering  -SLOs, incident response, canary', 'Module 34: AI Tools for DevOps  -Code Rabbit, Codeium, MCP']),
   ];
 
   static const projects = [
@@ -396,12 +396,12 @@ class _AWSSDetailContent extends StatelessWidget {
   ];
 
   static const included = [
-    'Daily 1-hour live sessions — Mon to Fri, no recordings substitute',
-    'Hands-on labs for every single module — not optional',
-    'All recordings — rewatch as many times as you need',
-    'WhatsApp group with us directly — ask doubts anytime',
+    'Daily 1-hour live sessions  -Mon to Fri, no recordings substitute',
+    'Hands-on labs for every single module  -not optional',
+    'All recordings  -rewatch as many times as you need',
+    'WhatsApp group with us directly  -ask doubts anytime',
     'Resume review + mock interviews before you apply',
-    'Interview question bank — 200+ real DevOps questions',
+    'Interview question bank  -200+ real DevOps questions',
   ];
 
   @override
@@ -421,8 +421,8 @@ class _AWSSDetailContent extends StatelessWidget {
               style: QVTheme.label()),
           const SizedBox(height: 8),
           Text(
-            "We've been doing DevOps at scale — multi-region EKS clusters, full CI/CD pipelines, "
-            "IaC with Terraform — for 10+ years. This is literally what we wish existed when we started. "
+            "We've been doing DevOps at scale  -multi-region EKS clusters, full CI/CD pipelines, "
+            "IaC with Terraform  -for 10+ years. This is literally what we wish existed when we started. "
             "No fluff. Every module has a lab because that's the only way DevOps actually sticks.",
             style: QVTheme.body(),
           ),
@@ -431,7 +431,7 @@ class _AWSSDetailContent extends StatelessWidget {
       const SizedBox(height: 24),
 
       // Curriculum
-      Text('Complete Curriculum — 34 Modules',
+      Text('Complete Curriculum  -34 Modules',
           style: QVTheme.h4().copyWith(color: QVTheme.tealMid)),
       const SizedBox(height: 12),
       ...parts.map((p) => _DetailAccordion(
@@ -490,13 +490,13 @@ class _AIDetailContent extends StatelessWidget {
   const _AIDetailContent();
 
   static const parts = [
-    ('PART 1', 'Foundations', ['Python from scratch — syntax, OOP, advanced features', 'Git & GitHub — branching, merging, professional workflows', 'Docker — images, volumes, deploying AI apps', 'Pydantic — type-safe structured data for Python apps']),
-    ('PART 2', 'AI & LLM Fundamentals', ['How LLMs work — tokenization, embeddings, attention mechanism', 'GPT, base models vs instruction-tuned models', 'Multi-head attention & the Attention Is All You Need paper']),
+    ('PART 1', 'Foundations', ['Python from scratch  -syntax, OOP, advanced features', 'Git & GitHub  -branching, merging, professional workflows', 'Docker  -images, volumes, deploying AI apps', 'Pydantic  -type-safe structured data for Python apps']),
+    ('PART 2', 'AI & LLM Fundamentals', ['How LLMs work  -tokenization, embeddings, attention mechanism', 'GPT, base models vs instruction-tuned models', 'Multi-head attention & the Attention Is All You Need paper']),
     ('PART 3', 'Prompt Engineering', ['Zero-shot, few-shot, chain-of-thought, persona-based', 'Prompt formats: Alpaca, ChatML, LLaMA-2', 'Structured JSON outputs with Pydantic, fixing hallucinations']),
-    ('PART 4', 'Running LLMs', ['OpenAI & Gemini API with Python', 'Ollama + Docker — local models, zero API cost', 'FastAPI endpoints for production LLM use']),
+    ('PART 4', 'Running LLMs', ['OpenAI & Gemini API with Python', 'Ollama + Docker  -local models, zero API cost', 'FastAPI endpoints for production LLM use']),
     ('PART 5', 'Agents & RAG', ['Build your first AI agent with the ReAct loop', 'CLI coding agent with Claude API', 'Full RAG pipeline: indexing → retrieval → answering', 'LangChain loaders, splitters, vector stores', 'Async RAG with Redis queues and background workers']),
     ('PART 6', 'LangGraph & Memory', ['LangGraph: state, nodes, edges, graph-based workflows', 'MongoDB checkpointing to resume agents across sessions', 'Short-term, long-term, episodic & semantic memory', 'Graph memory with Neo4j and Cypher queries']),
-    ('PART 7', 'Voice & Multi-Modal AI', ['Voice agents with real-time STT + TTS', 'Build your own AI coding assistant (Cursor-style)', 'Multi-modal LLMs — images + text in one pipeline']),
+    ('PART 7', 'Voice & Multi-Modal AI', ['Voice agents with real-time STT + TTS', 'Build your own AI coding assistant (Cursor-style)', 'Multi-modal LLMs  -images + text in one pipeline']),
     ('PART 8', 'Model Context Protocol (MCP)', ["What MCP is and why it's becoming the standard", 'MCP transports: STDIO and SSE', 'Build and deploy a real MCP server with Python']),
   ];
 
@@ -512,12 +512,12 @@ class _AIDetailContent extends StatelessWidget {
   ];
 
   static const included = [
-    'Daily 1-hour live sessions — Mon to Fri',
-    'Hands-on labs for every module — mandatory, not optional',
-    'All recordings — rewatch as many times as you need',
-    'WhatsApp group with us directly — ask doubts anytime',
+    'Daily 1-hour live sessions  -Mon to Fri',
+    'Hands-on labs for every module  -mandatory, not optional',
+    'All recordings  -rewatch as many times as you need',
+    'WhatsApp group with us directly  -ask doubts anytime',
     'Resume review + mock interviews before you apply',
-    'Interview question bank — 100+ real AI engineering questions',
+    'Interview question bank  -100+ real AI engineering questions',
   ];
 
   @override
@@ -544,7 +544,7 @@ class _AIDetailContent extends StatelessWidget {
       ),
       const SizedBox(height: 24),
 
-      Text('Complete Curriculum — 8 Parts',
+      Text('Complete Curriculum  -8 Parts',
           style: QVTheme.h4().copyWith(color: QVTheme.purple)),
       const SizedBox(height: 12),
       ...parts.map((p) => _DetailAccordion(
@@ -689,7 +689,7 @@ class _BottomCTA extends StatelessWidget {
         Text('Not sure which to pick?', style: QVTheme.h4()),
         const SizedBox(height: 6),
         Text(
-          "DM us on Instagram — tell us where you are right now and we'll tell you honestly which one makes sense.",
+          "DM us on Instagram  -tell us where you are right now and we'll tell you honestly which one makes sense.",
           style: QVTheme.body(color: QVTheme.txtMuted),
           textAlign: TextAlign.center,
         ),
