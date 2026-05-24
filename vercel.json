@@ -1,6 +1,6 @@
-{
+﻿{
   "version": 2,
-  "name": "quantum-vector",
+  "name": "qv-website",
   "builds": [
     {
       "src": "backend/src/index.js",
@@ -17,29 +17,8 @@
       "dest": "backend/src/index.js"
     },
     {
-      "src": "/(.*\\.(js|css|png|jpg|svg|ico|woff2|json))",
-      "dest": "frontend/build/web/$1"
-    },
-    {
       "src": "/(.*)",
       "dest": "frontend/build/web/index.html"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/(.*\\.(js|css|woff2))",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
     }
   ]
 }
