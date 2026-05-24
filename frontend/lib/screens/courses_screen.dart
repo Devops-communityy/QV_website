@@ -15,67 +15,63 @@ class CoursesScreen extends StatelessWidget {
       child: Column(
         children: [
           _PageHero(isMobile: isMobile),
-          _CourseCardAWS(isMobile: isMobile),
-          _CourseCardAI(isMobile: isMobile),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: isMobile ? 16 : 40, vertical: 32),
+            child: Column(children: [
+              _CourseCard(
+                isMobile: isMobile,
+                tag: 'AWS DEVOPS',
+                tagColor: QVTheme.tealMid,
+                badge: 'MOST POPULAR',
+                badgeColor: QVTheme.orange,
+                title: 'Complete AWS DevOps Course',
+                level: 'Beginners to Advanced',
+                startDate: 'Starting On: 5th June 2026',
+                totalClasses: '34 Modules across 9 Parts',
+                duration: '2–3 Months',
+                classDuration: '1 hour/day',
+                schedule: 'Mon – Fri',
+                timing: '7:30 PM – 8:30 PM IST',
+                mode: 'Online + Offline (Hyderabad)',
+                fee: '₹22,000',
+                enrollFee: '₹3,000',
+                enrollNote: 'Pay ₹3,000 now · ₹19,000 before start',
+                dmKeyword: 'DEVOPS',
+                pdfAsset: 'assets/docs/QV_AWS_DevOps_Curriculum.pdf',
+                pdfName: 'QV_AWS_DevOps_Curriculum.pdf',
+                accentColor: QVTheme.tealMid,
+                detailsContent: _AWSSDetailContent(),
+              ),
+              const SizedBox(height: 20),
+              _CourseCard(
+                isMobile: isMobile,
+                tag: 'AI + LLM',
+                tagColor: QVTheme.purple,
+                badge: 'NEW BATCH',
+                badgeColor: QVTheme.blue,
+                title: 'Complete AI & LLM Engineering Bootcamp',
+                level: 'Beginners to Advanced',
+                startDate: 'Batch enrolling now',
+                totalClasses: '8 Parts · 8 Portfolio Projects',
+                duration: '45 Days',
+                classDuration: '1 hour/day',
+                schedule: 'Mon – Fri',
+                timing: '7:30 PM – 8:30 PM IST',
+                mode: 'Live Online',
+                fee: '₹29,999',
+                enrollFee: '₹4,999',
+                enrollNote: 'Pay ₹4,999 now · Was ₹39,999',
+                dmKeyword: 'AI',
+                pdfAsset: null,
+                pdfName: null,
+                accentColor: QVTheme.purple,
+                detailsContent: _AIDetailContent(),
+              ),
+            ]),
+          ),
           _BottomCTA(isMobile: isMobile),
           const QVFooter(),
         ],
-      ),
-    );
-  }
-}
-
-// ─── PDF Download Helper ───────────────────────────────────────────────────────
-void _downloadPDF(String assetPath, String fileName) {
-  html.AnchorElement(href: assetPath)
-    ..setAttribute('download', fileName)
-    ..click();
-}
-
-class _DownloadBtn extends StatefulWidget {
-  final String label;
-  final String assetPath;
-  final String fileName;
-  final Color color;
-  const _DownloadBtn({
-    required this.label,
-    required this.assetPath,
-    required this.fileName,
-    this.color = QVTheme.tealMid,
-  });
-  @override State<_DownloadBtn> createState() => _DownloadBtnState();
-}
-class _DownloadBtnState extends State<_DownloadBtn> {
-  bool _hover = false;
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _hover = true),
-      onExit: (_) => setState(() => _hover = false),
-      child: GestureDetector(
-        onTap: () => _downloadPDF(widget.assetPath, widget.fileName),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 11),
-          decoration: BoxDecoration(
-            color: _hover ? widget.color.withOpacity(0.12) : widget.color.withOpacity(0.07),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: _hover ? widget.color : widget.color.withOpacity(0.35),
-              width: _hover ? 1.5 : 1,
-            ),
-          ),
-          child: Row(mainAxisSize: MainAxisSize.min, children: [
-            Icon(Icons.picture_as_pdf, color: widget.color, size: 16),
-            const SizedBox(width: 8),
-            Text(widget.label,
-                style: QVTheme.body(color: widget.color)
-                    .copyWith(fontWeight: FontWeight.w700, fontSize: 13)),
-            const SizedBox(width: 8),
-            Icon(Icons.download_rounded, color: widget.color, size: 15),
-          ]),
-        ),
       ),
     );
   }
@@ -85,710 +81,591 @@ class _DownloadBtnState extends State<_DownloadBtn> {
 class _PageHero extends StatelessWidget {
   final bool isMobile;
   const _PageHero({required this.isMobile});
-
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       color: QVTheme.bgSurface,
-      padding: EdgeInsets.fromLTRB(isMobile ? 24 : 80, 110, isMobile ? 24 : 80, 56),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: QVTheme.tealBg,
-              borderRadius: BorderRadius.circular(4),
-              border: Border.all(color: QVTheme.tealBorder),
-            ),
-            child: Text('// JOB-READY PROGRAMS', style: QVTheme.label()),
+      padding: EdgeInsets.fromLTRB(isMobile ? 24 : 80, 110, isMobile ? 24 : 80, 44),
+      child: Column(children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+          decoration: BoxDecoration(
+            color: QVTheme.tealBg,
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: QVTheme.tealBorder),
           ),
-          const SizedBox(height: 16),
-          Text('Real Training by\nReal DevOps Engineers',
-              style: QVTheme.display2(), textAlign: TextAlign.center),
-          const SizedBox(height: 14),
-          Text(
-            "We're a group of working DevOps engineers — not trainers who just read slides.\nEvery concept we teach, we use in production every day.",
-            style: QVTheme.body(color: QVTheme.txtMuted),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 28),
-          Wrap(alignment: WrapAlignment.center, spacing: 20, runSpacing: 10, children: [
-            _Pill(Icons.calendar_today, 'Mon – Fri Classes'),
-            _Pill(Icons.access_time, '7:00 AM – 7:30 AM IST'),
-            _Pill(Icons.psychology, '10+ Yrs Industry Experience'),
-            _Pill(Icons.folder_open, 'Real Production Projects'),
-          ]),
-        ],
-      ),
+          child: Text('// OUR LIVE COURSES', style: QVTheme.label()),
+        ),
+        const SizedBox(height: 14),
+        Text('Real Training by Real DevOps Engineers',
+            style: QVTheme.display2(), textAlign: TextAlign.center),
+        const SizedBox(height: 10),
+        Text(
+          "We're a group of working DevOps engineers — not trainers who just read slides.\nEvery concept we teach, we use in production every day.",
+          style: QVTheme.body(color: QVTheme.txtMuted),
+          textAlign: TextAlign.center,
+        ),
+      ]),
     );
   }
-
-  Widget _Pill(IconData icon, String label) => Row(mainAxisSize: MainAxisSize.min, children: [
-    Icon(icon, color: QVTheme.tealMid, size: 14),
-    const SizedBox(width: 6),
-    Text(label, style: QVTheme.bodySmall()),
-  ]);
 }
 
-// ─── AWS DevOps Course ────────────────────────────────────────────────────────
-class _CourseCardAWS extends StatelessWidget {
+// ─── Course Card ──────────────────────────────────────────────────────────────
+class _CourseCard extends StatefulWidget {
   final bool isMobile;
-  const _CourseCardAWS({required this.isMobile});
+  final String tag, title, level, startDate, totalClasses, duration;
+  final String classDuration, schedule, timing, mode, fee, enrollFee, enrollNote, dmKeyword;
+  final String? pdfAsset, pdfName;
+  final Color tagColor, badgeColor, accentColor;
+  final String badge;
+  final Widget detailsContent;
 
-  static const curriculum = [
-    ('PART I', 'DevOps Foundations', [
-      'Module 1: DevOps Intro & Culture — SDLC, Waterfall vs Agile, CI/CD concepts',
-      'Module 2: Linux Administration — Architecture, permissions, networking, troubleshooting',
-      'Module 3: Shell Scripting (Bash) — Variables, loops, cron jobs, real automation scripts',
-      'Module 4: Python for DevOps — OOP, file management, automation scripts',
-      'Module 5: Networking Fundamentals — OSI model, TCP/IP, IP subnetting, DNS/DHCP',
-    ]),
-    ('PART II', 'Source Code & Build Management', [
-      'Module 6: Git & Version Control — Branching, rebasing, PR workflow, Git hooks',
-      'Module 7: Maven Build Automation — pom.xml, build lifecycle, multi-module projects',
-      'Module 8: Nexus & JFrog Artifactory — Release vs snapshot, artifact repos with Jenkins',
-      'Module 9: SonarQube Code Quality — SAST, PMD, JaCoCo, pipeline integration',
-    ]),
-    ('PART III', 'CI/CD & Automation', [
-      'Module 10: Jenkins — Pipelines (scripted + declarative), multi-branch, shared libraries',
-      'Module 11: AWS CodePipeline, CodeBuild & CodeDeploy — end-to-end AWS native CI/CD',
-    ]),
-    ('PART IV', 'Configuration Management', [
-      'Module 12: Ansible — Inventory, playbooks, roles, vault, Jinja2, rolling deployments',
-    ]),
-    ('PART V', 'Containerization & Orchestration', [
-      'Module 13: Docker — Dockerfile, multi-stage builds, networking, volumes, compose, ECR',
-      'Module 14: Kubernetes — Pods, deployments, RBAC, HPA, Helm, ArgoCD, Amazon EKS',
-    ]),
-    ('PART VI', 'Infrastructure as Code', [
-      'Module 15: Terraform — HCL, providers (AWS/Docker/K8s), remote state, modules',
-      'Module 16: Packer — AMI automation, Ansible provisioners in Packer',
-    ]),
-    ('PART VII', 'Monitoring & Observability', [
-      'Module 17: Prometheus & Grafana — Dashboards, alerting, Kubernetes integration',
-      'Module 18: AWS CloudWatch, CloudTrail & Systems Manager',
-    ]),
-    ('PART VIII', 'AWS Cloud Services', [
-      'Module 19–20: Cloud Fundamentals & EC2 — AMIs, pricing models, security groups',
-      'Module 21–22: IAM & VPC — Users/roles/policies, MFA, subnets, NAT, VPC peering',
-      'Module 23–24: S3 & EBS — Storage classes, lifecycle, static hosting, volume types',
-      'Module 25–26: ELB & Auto Scaling — ALB/NLB, target groups, CloudWatch alarms',
-      'Module 27–28: RDS, Route 53 & CloudFront — Multi-AZ, read replicas, CDN, DNS',
-      'Module 29–31: Lambda, CloudFormation & AWS Bedrock — Serverless, IaC, AI services',
-    ]),
-    ('PART IX', 'Advanced Topics', [
-      'Module 32: DevSecOps — SAST, DAST, container security, shift-left practices',
-      'Module 33: Site Reliability Engineering — SLOs, incident response, canary releases',
-      'Module 34: AI Tools for DevOps — Code Rabbit, Codeium, MCP, AI pipeline optimization',
-    ]),
-  ];
+  const _CourseCard({
+    required this.isMobile, required this.tag, required this.tagColor,
+    required this.badge, required this.badgeColor, required this.title,
+    required this.level, required this.startDate, required this.totalClasses,
+    required this.duration, required this.classDuration, required this.schedule,
+    required this.timing, required this.mode, required this.fee,
+    required this.enrollFee, required this.enrollNote, required this.dmKeyword,
+    required this.pdfAsset, required this.pdfName, required this.accentColor,
+    required this.detailsContent,
+  });
 
-  static const projects = [
-    ('01', 'Static Website Hosting', 'Host on S3 with Route 53, CloudFront, SSL', ['S3', 'Route 53', 'CloudFront']),
-    ('02', 'EC2 Web Server Setup', 'Apache/Nginx on EC2 with Auto Scaling and ALB', ['EC2', 'Apache', 'Nginx', 'ALB']),
-    ('03', 'Multi-Tier App on EKS', 'E-Commerce app — VPC, ALB, EKS, RDS, ECR, Route53', ['VPC', 'ALB', 'EKS', 'RDS', 'ECR']),
-    ('04', 'Full GitOps Pipeline', 'EKS + ArgoCD + Helm + Prometheus + Grafana + Jenkins', ['ArgoCD', 'Helm', 'Prometheus', 'EKS']),
-  ];
+  @override
+  State<_CourseCard> createState() => _CourseCardState();
+}
+
+class _CourseCardState extends State<_CourseCard> {
+  bool _expanded = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(isMobile ? 16 : 40, 40, isMobile ? 16 : 40, 0),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: QVTheme.tealMid, width: 2),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: widget.accentColor, width: 1.5),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        // Header
-        Container(
-          padding: EdgeInsets.all(isMobile ? 20 : 32),
-          decoration: const BoxDecoration(
-            color: QVTheme.tealBg,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(14)),
-          ),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [
-              TechTag(label: 'AWS DEVOPS'),
-              const SizedBox(width: 8),
-              TechTag(label: 'MOST POPULAR', color: QVTheme.orange),
-            ]),
-            const SizedBox(height: 14),
-            isMobile
-              ? Text('Complete AWS DevOps Course', style: QVTheme.h3())
-              : Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Expanded(child: Text('Complete AWS DevOps Course',
-                      style: QVTheme.display2().copyWith(fontSize: 30))),
-                  const SizedBox(width: 32),
-                  _PricePanel(),
-                ]),
-            const SizedBox(height: 8),
-            Text("Zero to Job-Ready — taught by engineers, not just teachers.",
-                style: QVTheme.body(color: QVTheme.tealMid)),
-            const SizedBox(height: 12),
-            Wrap(spacing: 16, runSpacing: 8, children: [
-              _M(Icons.calendar_today, 'Starts 5th June 2026'),
-              _M(Icons.access_time, '7:00–7:30 AM IST · Mon–Fri'),
-              _M(Icons.schedule, '2–3 Months'),
-              _M(Icons.laptop, 'Online + Offline (Hyderabad)'),
-            ]),
-            const SizedBox(height: 16),
-            Wrap(spacing: 6, runSpacing: 6, children: [
-              'Linux','Bash','Git','Maven','Jenkins','Ansible',
-              'Docker','Kubernetes','AWS','Terraform','Prometheus',
-              'Grafana','ArgoCD','DevSecOps','SRE',
-            ].map((t) => TechTag(label: t)).toList()),
-            const SizedBox(height: 16),
-            // ── PDF DOWNLOAD BUTTON ──
-            _DownloadBtn(
-              label: 'Download Full Curriculum PDF',
-              assetPath: 'assets/docs/QV_AWS_DevOps_Curriculum.pdf',
-              fileName: 'QV_AWS_DevOps_Curriculum.pdf',
-              color: QVTheme.tealMid,
-            ),
-            if (isMobile) ...[const SizedBox(height: 16), _PricePanel(mobile: true)],
-          ]),
-        ),
-
-        // Quote from instructors
-        _InstructorQuote(
-          color: QVTheme.tealMid,
-          bg: const Color(0xFFF0FFF8),
-          border: QVTheme.tealBorder,
-          label: 'FROM US, THE INSTRUCTORS',
-          quote: "We've been doing DevOps at scale — multi-region EKS clusters, full CI/CD pipelines, "
-              "IaC with Terraform — for 10+ years. This course is literally what we wish existed when we started. "
-              "No fluff, no slides-only sessions. Every module has a lab because that's the only way DevOps actually sticks.",
-          schedule: 'Batch starts 5th June · Mon–Fri · 7:00–7:30 AM IST · Online + Hyderabad',
-          padding: EdgeInsets.all(isMobile ? 20 : 32),
-        ),
-
-        // Curriculum
+        // ── Main card content ──
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: isMobile ? 20 : 32),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('Complete Curriculum — 34 Modules', style: QVTheme.h4().copyWith(color: QVTheme.tealMid)),
-            const SizedBox(height: 4),
-            Text('9 Parts · everything from Linux basics to AI tools for DevOps', style: QVTheme.bodySmall()),
-            const SizedBox(height: 16),
-            ...curriculum.map((p) => _Accordion(
-              partNum: p.$1, title: p.$2, items: p.$3, color: QVTheme.tealMid,
-              activeBg: const Color(0xFFF0FFF8), activeBorder: QVTheme.tealBorder,
-            )),
-          ]),
-        ),
-
-        const SizedBox(height: 32),
-
-        // Projects
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: isMobile ? 20 : 32),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('4 Real-World AWS Projects', style: QVTheme.h4().copyWith(color: QVTheme.tealMid)),
-            const SizedBox(height: 4),
-            Text("These go straight on your resume. We've seen these exact projects get candidates interviews at TCS, Infosys, Wipro.",
-                style: QVTheme.bodySmall()),
-            const SizedBox(height: 16),
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: isMobile ? 1 : 2,
-              mainAxisSpacing: 12, crossAxisSpacing: 12,
-              childAspectRatio: isMobile ? 2.5 : 2.8,
-              children: projects.map((p) => _ProjectCard(
-                num: p.$1, title: p.$2, desc: p.$3, tags: p.$4,
-                color: QVTheme.tealMid,
-              )).toList(),
-            ),
-          ]),
-        ),
-
-        const SizedBox(height: 32),
-
-        // What's included
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: isMobile ? 20 : 32),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text("What You're Getting", style: QVTheme.h4().copyWith(color: QVTheme.tealMid)),
-            const SizedBox(height: 16),
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: isMobile ? 1 : 2,
-              mainAxisSpacing: 8, crossAxisSpacing: 8,
-              childAspectRatio: isMobile ? 7 : 9,
-              children: [
-                'Daily 30-min live sessions — tight, focused, no time-wasting',
-                'Hands-on labs for every single module — not optional',
-                'All recordings — rewatch as many times as you need',
-                'WhatsApp group with us directly — ask doubts anytime',
-                '4 production-grade AWS projects for your resume',
-                'Resume review + mock interviews before you apply',
-                'Interview question bank — 200+ real DevOps questions',
-                'Referrals to our hiring network — 50+ companies',
-              ].map((t) => Row(children: [
-                const Icon(Icons.check_circle, color: QVTheme.tealMid, size: 16),
-                const SizedBox(width: 10),
-                Expanded(child: Text(t, style: QVTheme.bodySmall())),
-              ])).toList(),
-            ),
-          ]),
-        ),
-
-        const SizedBox(height: 32),
-
-        // Enroll CTA
-        Container(
-          margin: EdgeInsets.all(isMobile ? 20 : 32),
           padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: QVTheme.tealBg,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: QVTheme.tealBorder),
-          ),
-          child: isMobile
-            ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('Ready to join the 5th June batch?', style: QVTheme.h4()),
-                const SizedBox(height: 8),
-                Text('Seats limited to 30. DM us before it fills up.', style: QVTheme.body()),
-                const SizedBox(height: 14),
-                SizedBox(width: double.infinity, child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: QVTheme.tealMid, foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  ),
-                  child: const Text('Secure Your Seat – ₹3,000'),
-                )),
-              ])
-            : Row(children: [
-                Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text('Ready to join the 5th June batch?', style: QVTheme.h4()),
-                  const SizedBox(height: 6),
-                  Text("Seats are limited to 30 per batch. We keep it small so everyone gets personal attention.",
-                      style: QVTheme.body()),
-                ])),
-                const SizedBox(width: 32),
-                Column(children: [
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: QVTheme.tealMid, foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                    child: const Text('Secure Your Seat – ₹3,000'),
-                  ),
-                  const SizedBox(height: 8),
-                  Text("or DM 'DEVOPS' on Instagram",
-                      style: QVTheme.bodySmall(color: QVTheme.tealMid)),
-                ]),
-              ]),
+          child: widget.isMobile
+              ? _MobileLayout(card: this)
+              : _DesktopLayout(card: this),
         ),
-        const SizedBox(height: 16),
+
+        // ── Expandable details ──
+        AnimatedSize(
+          duration: const Duration(milliseconds: 300),
+          child: _expanded
+            ? Column(children: [
+                Divider(color: widget.accentColor.withOpacity(0.2), height: 1),
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: widget.detailsContent,
+                ),
+              ])
+            : const SizedBox.shrink(),
+        ),
       ]),
     );
   }
-
-  Widget _M(IconData icon, String text) => Row(mainAxisSize: MainAxisSize.min, children: [
-    Icon(icon, color: QVTheme.tealMid, size: 13),
-    const SizedBox(width: 5),
-    Text(text, style: QVTheme.bodySmall(color: QVTheme.txtPrimary)),
-  ]);
 }
 
-// ─── AI LLM Course Card ───────────────────────────────────────────────────────
-class _CourseCardAI extends StatelessWidget {
-  final bool isMobile;
-  const _CourseCardAI({required this.isMobile});
+class _DesktopLayout extends StatelessWidget {
+  final _CourseCardState card;
+  const _DesktopLayout({required this.card});
 
-  static const curriculum = [
+  @override
+  Widget build(BuildContext context) {
+    final w = card.widget;
+    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          _Tag(w.tag, w.tagColor),
+          const SizedBox(width: 8),
+          _Tag(w.badge, w.badgeColor),
+          const SizedBox(width: 8),
+          _Tag(w.level, QVTheme.txtMuted),
+        ]),
+        const SizedBox(height: 12),
+        Text(w.title, style: QVTheme.h3().copyWith(fontSize: 22)),
+        const SizedBox(height: 14),
+        _InfoGrid(w: w),
+        const SizedBox(height: 14),
+        Row(children: [
+          OutlinedButton.icon(
+            onPressed: () => card.setState(() => card._expanded = !card._expanded),
+            icon: Icon(
+              card._expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+              size: 16, color: w.accentColor,
+            ),
+            label: Text(
+              card._expanded ? 'Hide Details' : 'View Details →',
+              style: TextStyle(fontSize: 13, color: w.accentColor, fontWeight: FontWeight.w600),
+            ),
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: w.accentColor),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+            ),
+          ),
+          if (w.pdfAsset != null) ...[
+            const SizedBox(width: 10),
+            _PdfBtn(assetPath: w.pdfAsset!, fileName: w.pdfName!, color: w.accentColor),
+          ],
+        ]),
+      ])),
+      const SizedBox(width: 28),
+      _FeeBox(w: w),
+    ]);
+  }
+}
+
+class _MobileLayout extends StatelessWidget {
+  final _CourseCardState card;
+  const _MobileLayout({required this.card});
+
+  @override
+  Widget build(BuildContext context) {
+    final w = card.widget;
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Row(children: [
+        _Tag(w.tag, w.tagColor),
+        const SizedBox(width: 6),
+        _Tag(w.badge, w.badgeColor),
+      ]),
+      const SizedBox(height: 10),
+      Text(w.title, style: QVTheme.h4()),
+      const SizedBox(height: 4),
+      Text(w.level, style: QVTheme.bodySmall()),
+      const SizedBox(height: 12),
+      _InfoGrid(w: w),
+      const SizedBox(height: 12),
+      _FeeBox(w: w, mobile: true),
+      const SizedBox(height: 12),
+      Row(children: [
+        Expanded(child: OutlinedButton(
+          onPressed: () => card.setState(() => card._expanded = !card._expanded),
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(color: w.accentColor),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+          ),
+          child: Text(
+            card._expanded ? 'Hide Details' : 'View Details →',
+            style: TextStyle(fontSize: 13, color: w.accentColor, fontWeight: FontWeight.w600),
+          ),
+        )),
+        if (w.pdfAsset != null) ...[
+          const SizedBox(width: 8),
+          _PdfBtn(assetPath: w.pdfAsset!, fileName: w.pdfName!, color: w.accentColor),
+        ],
+      ]),
+    ]);
+  }
+}
+
+class _InfoGrid extends StatelessWidget {
+  final dynamic w;
+  const _InfoGrid({required this.w});
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(spacing: 20, runSpacing: 8, children: [
+      _InfoItem(Icons.calendar_today, w.startDate),
+      _InfoItem(Icons.class_, w.totalClasses),
+      _InfoItem(Icons.timer, w.classDuration),
+      _InfoItem(Icons.access_time, w.timing),
+      _InfoItem(Icons.date_range, w.schedule),
+      _InfoItem(Icons.laptop, w.mode),
+    ]);
+  }
+}
+
+Widget _InfoItem(IconData icon, String text) => Row(mainAxisSize: MainAxisSize.min, children: [
+  Icon(icon, size: 13, color: QVTheme.tealMid),
+  const SizedBox(width: 5),
+  Text(text, style: QVTheme.bodySmall(color: QVTheme.txtPrimary)),
+]);
+
+Widget _Tag(String label, Color color) => Container(
+  padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+  decoration: BoxDecoration(
+    color: color.withOpacity(0.1),
+    borderRadius: BorderRadius.circular(4),
+    border: Border.all(color: color.withOpacity(0.35)),
+  ),
+  child: Text(label, style: TextStyle(
+    fontSize: 10, color: color,
+    fontWeight: FontWeight.w700, letterSpacing: 0.6,
+    fontFamily: 'monospace',
+  )),
+);
+
+class _FeeBox extends StatelessWidget {
+  final dynamic w;
+  final bool mobile;
+  const _FeeBox({required this.w, this.mobile = false});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: mobile ? double.infinity : 190,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: (w.accentColor as Color).withOpacity(0.05),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: (w.accentColor as Color).withOpacity(0.3)),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text('Course Fee', style: QVTheme.bodySmall()),
+        Text(w.fee, style: TextStyle(
+          fontSize: 24, fontWeight: FontWeight.w800,
+          color: w.accentColor as Color, letterSpacing: -0.8,
+        )),
+        const SizedBox(height: 2),
+        Text(w.enrollNote, style: QVTheme.bodySmall()),
+        const SizedBox(height: 12),
+        SizedBox(width: double.infinity, child: ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: w.accentColor as Color,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 11),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+            textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+          ),
+          child: Text('Enroll – ${w.enrollFee}'),
+        )),
+        const SizedBox(height: 6),
+        Center(child: Text("DM '${w.dmKeyword}' on Instagram",
+            style: QVTheme.bodySmall(color: w.accentColor as Color))),
+      ]),
+    );
+  }
+}
+
+class _PdfBtn extends StatelessWidget {
+  final String assetPath, fileName;
+  final Color color;
+  const _PdfBtn({required this.assetPath, required this.fileName, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      onPressed: () {
+        html.AnchorElement(href: assetPath)
+          ..setAttribute('download', fileName)
+          ..click();
+      },
+      icon: Icon(Icons.download_rounded, size: 15, color: color),
+      label: Text('Curriculum PDF',
+          style: TextStyle(fontSize: 12, color: color, fontWeight: FontWeight.w600)),
+      style: OutlinedButton.styleFrom(
+        side: BorderSide(color: color.withOpacity(0.4)),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+      ),
+    );
+  }
+}
+
+// ─── AWS Details Content ──────────────────────────────────────────────────────
+class _AWSSDetailContent extends StatelessWidget {
+  const _AWSSDetailContent();
+
+  static const parts = [
+    ('PART I', 'DevOps Foundations', ['Module 1: DevOps Intro & Culture — SDLC, Waterfall vs Agile, CI/CD', 'Module 2: Linux Administration — Architecture, permissions, networking', 'Module 3: Shell Scripting — Variables, loops, cron jobs, automation scripts', 'Module 4: Python for DevOps — OOP, file management, automation', 'Module 5: Networking Fundamentals — OSI model, TCP/IP, subnetting, DNS']),
+    ('PART II', 'Source Code & Build Management', ['Module 6: Git & Version Control — Branching, rebasing, PR workflow, Git hooks', 'Module 7: Maven Build Automation — pom.xml, lifecycle, multi-module projects', 'Module 8: Nexus & JFrog Artifactory — Release vs snapshot, artifact repos', 'Module 9: SonarQube Code Quality — SAST, PMD, JaCoCo, pipeline integration']),
+    ('PART III', 'CI/CD & Automation', ['Module 10: Jenkins — Pipelines (scripted + declarative), multi-branch, shared libs', 'Module 11: AWS CodePipeline, CodeBuild & CodeDeploy — end-to-end AWS native CI/CD']),
+    ('PART IV', 'Configuration Management', ['Module 12: Ansible — Inventory, playbooks, roles, vault, Jinja2, rolling deployments']),
+    ('PART V', 'Containerization & Orchestration', ['Module 13: Docker — Dockerfile, multi-stage builds, networking, volumes, ECR', 'Module 14: Kubernetes — Pods, deployments, RBAC, HPA, Helm, ArgoCD, EKS']),
+    ('PART VI', 'Infrastructure as Code', ['Module 15: Terraform — HCL, providers (AWS/Docker/K8s), remote state, modules', 'Module 16: Packer — AMI automation, Ansible provisioners']),
+    ('PART VII', 'Monitoring & Observability', ['Module 17: Prometheus & Grafana — Dashboards, alerting, K8s integration', 'Module 18: AWS CloudWatch, CloudTrail & Systems Manager']),
+    ('PART VIII', 'AWS Cloud Services', ['Modules 19–20: Cloud Fundamentals & EC2 — AMIs, pricing, security groups', 'Modules 21–22: IAM & VPC — Users/roles/policies, MFA, subnets, NAT', 'Modules 23–24: S3 & EBS — Storage classes, lifecycle, static hosting', 'Modules 25–26: ELB & Auto Scaling — ALB/NLB, target groups, CloudWatch', 'Modules 27–28: RDS, Route 53 & CloudFront — Multi-AZ, read replicas, CDN', 'Modules 29–31: Lambda, CloudFormation & AWS Bedrock — Serverless, IaC, AI']),
+    ('PART IX', 'Advanced Topics', ['Module 32: DevSecOps — SAST, DAST, container security, shift-left', 'Module 33: Site Reliability Engineering — SLOs, incident response, canary', 'Module 34: AI Tools for DevOps — Code Rabbit, Codeium, MCP']),
+  ];
+
+  static const projects = [
+    ('01', 'Static Website Hosting', 'S3 + Route 53 + CloudFront + SSL'),
+    ('02', 'EC2 Web Server Setup', 'Apache/Nginx + Auto Scaling + ALB'),
+    ('03', 'Multi-Tier App on EKS', 'VPC + ALB + EKS + RDS + ECR + Route53'),
+    ('04', 'Full GitOps Pipeline', 'EKS + ArgoCD + Helm + Prometheus + Grafana + Jenkins'),
+  ];
+
+  static const included = [
+    'Daily 1-hour live sessions — Mon to Fri, no recordings substitute',
+    'Hands-on labs for every single module — not optional',
+    'All recordings — rewatch as many times as you need',
+    'WhatsApp group with us directly — ask doubts anytime',
+    'Resume review + mock interviews before you apply',
+    'Interview question bank — 200+ real DevOps questions',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 768;
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      // From the instructors
+      Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF0FFF8),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: QVTheme.tealBorder),
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('// FROM US, THE INSTRUCTORS',
+              style: QVTheme.label()),
+          const SizedBox(height: 8),
+          Text(
+            "We've been doing DevOps at scale — multi-region EKS clusters, full CI/CD pipelines, "
+            "IaC with Terraform — for 10+ years. This is literally what we wish existed when we started. "
+            "No fluff. Every module has a lab because that's the only way DevOps actually sticks.",
+            style: QVTheme.body(),
+          ),
+        ]),
+      ),
+      const SizedBox(height: 24),
+
+      // Curriculum
+      Text('Complete Curriculum — 34 Modules',
+          style: QVTheme.h4().copyWith(color: QVTheme.tealMid)),
+      const SizedBox(height: 12),
+      ...parts.map((p) => _DetailAccordion(
+        partNum: p.$1, title: p.$2, items: p.$3,
+        color: QVTheme.tealMid, activeBg: const Color(0xFFF0FFF8),
+        activeBorder: QVTheme.tealBorder,
+      )),
+      const SizedBox(height: 24),
+
+      // Projects
+      Text('4 Real-World AWS Projects',
+          style: QVTheme.h4().copyWith(color: QVTheme.tealMid)),
+      const SizedBox(height: 4),
+      Text("These go straight on your resume.",
+          style: QVTheme.bodySmall()),
+      const SizedBox(height: 12),
+      ...projects.map((p) => Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(
+          color: QVTheme.bgSurface,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: QVTheme.border),
+        ),
+        child: Row(children: [
+          Text('PROJECT ${p.$1}',
+              style: QVTheme.label(color: QVTheme.tealMid)),
+          const SizedBox(width: 14),
+          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(p.$2, style: QVTheme.body(color: QVTheme.txtPrimary)
+                .copyWith(fontWeight: FontWeight.w700, fontSize: 13)),
+            Text(p.$3, style: QVTheme.bodySmall()),
+          ])),
+        ]),
+      )),
+      const SizedBox(height: 24),
+
+      // What's included
+      Text("What You're Getting",
+          style: QVTheme.h4().copyWith(color: QVTheme.tealMid)),
+      const SizedBox(height: 10),
+      ...included.map((t) => Padding(
+        padding: const EdgeInsets.only(bottom: 7),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Icon(Icons.check_circle, color: QVTheme.tealMid, size: 15),
+          const SizedBox(width: 8),
+          Expanded(child: Text(t, style: QVTheme.bodySmall())),
+        ]),
+      )),
+    ]);
+  }
+}
+
+// ─── AI Details Content ───────────────────────────────────────────────────────
+class _AIDetailContent extends StatelessWidget {
+  const _AIDetailContent();
+
+  static const parts = [
     ('PART 1', 'Foundations', ['Python from scratch — syntax, OOP, advanced features', 'Git & GitHub — branching, merging, professional workflows', 'Docker — images, volumes, deploying AI apps', 'Pydantic — type-safe structured data for Python apps']),
-    ('PART 2', 'AI & LLM Fundamentals', ['How LLMs work — tokenization, embeddings, attention mechanism', 'GPT, base models vs instruction-tuned — when to use what', 'Multi-head attention & the Attention Is All You Need paper']),
-    ('PART 3', 'Prompt Engineering', ['Zero-shot, few-shot, chain-of-thought, persona-based strategies', 'Prompt formats: Alpaca, ChatML, LLaMA-2', 'Structured JSON outputs with Pydantic, fixing hallucinations']),
-    ('PART 4', 'Running LLMs', ['OpenAI & Gemini API with Python', 'Ollama + Docker — run models locally zero API cost', 'FastAPI endpoints for production LLM use']),
-    ('PART 5', 'Agents & RAG', ['Build your first AI agent with the ReAct loop from scratch', 'CLI coding agent with Claude API', 'Full RAG pipeline: indexing → retrieval → answering', 'LangChain loaders, splitters, vector stores', 'Async RAG with Redis queues and background workers']),
-    ('PART 6', 'LangGraph & Memory', ['LangGraph: state, nodes, edges, graph-based AI workflows', 'MongoDB checkpointing to resume agents across sessions', 'Short-term, long-term, episodic & semantic memory', 'Graph memory with Neo4j and Cypher queries']),
+    ('PART 2', 'AI & LLM Fundamentals', ['How LLMs work — tokenization, embeddings, attention mechanism', 'GPT, base models vs instruction-tuned models', 'Multi-head attention & the Attention Is All You Need paper']),
+    ('PART 3', 'Prompt Engineering', ['Zero-shot, few-shot, chain-of-thought, persona-based', 'Prompt formats: Alpaca, ChatML, LLaMA-2', 'Structured JSON outputs with Pydantic, fixing hallucinations']),
+    ('PART 4', 'Running LLMs', ['OpenAI & Gemini API with Python', 'Ollama + Docker — local models, zero API cost', 'FastAPI endpoints for production LLM use']),
+    ('PART 5', 'Agents & RAG', ['Build your first AI agent with the ReAct loop', 'CLI coding agent with Claude API', 'Full RAG pipeline: indexing → retrieval → answering', 'LangChain loaders, splitters, vector stores', 'Async RAG with Redis queues and background workers']),
+    ('PART 6', 'LangGraph & Memory', ['LangGraph: state, nodes, edges, graph-based workflows', 'MongoDB checkpointing to resume agents across sessions', 'Short-term, long-term, episodic & semantic memory', 'Graph memory with Neo4j and Cypher queries']),
     ('PART 7', 'Voice & Multi-Modal AI', ['Voice agents with real-time STT + TTS', 'Build your own AI coding assistant (Cursor-style)', 'Multi-modal LLMs — images + text in one pipeline']),
     ('PART 8', 'Model Context Protocol (MCP)', ["What MCP is and why it's becoming the standard", 'MCP transports: STDIO and SSE', 'Build and deploy a real MCP server with Python']),
   ];
 
   static const projects = [
-    ('01', 'Tokenizer from Scratch', ['Python', 'NLP']),
-    ('02', 'Local Ollama + FastAPI AI App', ['Ollama', 'Docker', 'FastAPI']),
-    ('03', 'Python CLI Coding Assistant', ['Agents', 'Claude API']),
-    ('04', 'Document RAG Pipeline', ['LangChain', 'ChromaDB']),
-    ('05', 'Scalable Queue-based RAG', ['Redis', 'FastAPI', 'Workers']),
-    ('06', 'AI Conversational Voice Agent', ['STT', 'GPT', 'TTS']),
-    ('07', 'Graph Memory Agent', ['Neo4j', 'LangGraph']),
-    ('08', 'MCP-Powered AI Server', ['MCP SDK', 'STDIO', 'SSE']),
+    ('01', 'Tokenizer from Scratch', 'Python · NLP'),
+    ('02', 'Local Ollama + FastAPI AI App', 'Ollama · Docker · FastAPI'),
+    ('03', 'Python CLI Coding Assistant', 'Agents · Claude API'),
+    ('04', 'Document RAG Pipeline', 'LangChain · ChromaDB'),
+    ('05', 'Scalable Queue-based RAG', 'Redis · FastAPI · Workers'),
+    ('06', 'AI Conversational Voice Agent', 'STT · GPT · TTS'),
+    ('07', 'Graph Memory Agent', 'Neo4j · LangGraph'),
+    ('08', 'MCP-Powered AI Server', 'MCP SDK · STDIO · SSE'),
+  ];
+
+  static const included = [
+    'Daily 1-hour live sessions — Mon to Fri',
+    'Hands-on labs for every module — mandatory, not optional',
+    'All recordings — rewatch as many times as you need',
+    'WhatsApp group with us directly — ask doubts anytime',
+    'Resume review + mock interviews before you apply',
+    'Interview question bank — 100+ real AI engineering questions',
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(isMobile ? 16 : 40, 32, isMobile ? 16 : 40, 0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: QVTheme.purple, width: 2),
-      ),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Container(
-          padding: EdgeInsets.all(isMobile ? 20 : 32),
-          decoration: BoxDecoration(
-            color: QVTheme.purpleBg,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
-          ),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [
-              TechTag(label: 'AI + LLM', color: QVTheme.purple),
-              const SizedBox(width: 8),
-              TechTag(label: 'NEW BATCH', color: QVTheme.blue),
-            ]),
-            const SizedBox(height: 14),
-            isMobile
-              ? Text('AI & LLM Engineering Bootcamp', style: QVTheme.h3())
-              : Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Expanded(child: Text('Complete AI & LLM Engineering Bootcamp',
-                      style: QVTheme.display2().copyWith(fontSize: 28))),
-                  const SizedBox(width: 32),
-                  _AIPricePanel(),
-                ]),
-            const SizedBox(height: 8),
-            Text('From zero API calls to production AI systems.',
-                style: QVTheme.body(color: QVTheme.purple)),
-            const SizedBox(height: 12),
-            Wrap(spacing: 16, runSpacing: 8, children: [
-              _M(Icons.schedule, '45 Days'),
-              _M(Icons.access_time, '8:30–9:30 AM IST · Mon–Fri'),
-              _M(Icons.laptop, 'Live Online'),
-              _M(Icons.folder_open, '8 Projects'),
-            ]),
-            const SizedBox(height: 16),
-            Wrap(spacing: 6, runSpacing: 6, children: [
-              'Python','LLMs','RAG','LangChain','LangGraph',
-              'Agents','MCP','Voice AI','Neo4j','FastAPI',
-            ].map((t) => TechTag(label: t, color: QVTheme.purple)).toList()),
-            // NOTE: Add AI curriculum PDF download button here when PDF is available
-            // const SizedBox(height: 16),
-            // _DownloadBtn(label: 'Download AI Curriculum PDF', ...),
-            if (isMobile) ...[const SizedBox(height: 16), _AIPricePanel(mobile: true)],
-          ]),
-        ),
-
-        _InstructorQuote(
-          color: QVTheme.purple,
-          bg: const Color(0xFFF5F3FF),
-          border: QVTheme.purpleBorder,
-          label: 'FROM US, THE INSTRUCTORS',
-          quote: "AI engineering isn't just calling OpenAI's API. We built this bootcamp because we "
-              "kept seeing engineers who could make a chatbot demo but had no idea how to handle "
-              "memory, scale RAG, or wire up real agents. This is the course that takes you from "
-              "'I called an API once' to 'I built a production AI system.'",
-          schedule: '45 Days · Mon–Fri · 8:30–9:30 AM IST · Live Online',
-          padding: EdgeInsets.all(isMobile ? 20 : 32),
-        ),
-
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: isMobile ? 20 : 32),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('Complete Curriculum — 8 Parts', style: QVTheme.h4().copyWith(color: QVTheme.purple)),
-            const SizedBox(height: 4),
-            Text('From Python zero to production AI systems', style: QVTheme.bodySmall()),
-            const SizedBox(height: 16),
-            ...curriculum.map((p) => _Accordion(
-              partNum: p.$1, title: p.$2, items: p.$3, color: QVTheme.purple,
-              activeBg: const Color(0xFFF5F3FF), activeBorder: QVTheme.purpleBorder,
-            )),
-          ]),
-        ),
-
-        const SizedBox(height: 32),
-
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: isMobile ? 20 : 32),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('8 Portfolio Projects', style: QVTheme.h4().copyWith(color: QVTheme.purple)),
-            const SizedBox(height: 4),
-            Text("Every project is something you'd actually show in an interview.", style: QVTheme.bodySmall()),
-            const SizedBox(height: 16),
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: isMobile ? 1 : 2,
-              mainAxisSpacing: 10, crossAxisSpacing: 10,
-              childAspectRatio: isMobile ? 2.8 : 3.2,
-              children: projects.map((p) => _ProjectCard(
-                num: p.$1, title: p.$2, desc: '', tags: p.$3,
-                color: QVTheme.purple,
-              )).toList(),
-            ),
-          ]),
-        ),
-
-        const SizedBox(height: 32),
-
-        Container(
-          margin: EdgeInsets.all(isMobile ? 20 : 32),
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: QVTheme.purpleBg,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: QVTheme.purpleBorder),
-          ),
-          child: Column(children: [
-            Text('Ready to become a production AI engineer?', style: QVTheme.h4()),
-            const SizedBox(height: 8),
-            Text('Offer price ₹29,999 (was ₹39,999). Pay ₹4,999 to lock your seat.',
-                style: QVTheme.body(color: QVTheme.txtMuted), textAlign: TextAlign.center),
-            const SizedBox(height: 16),
-            SizedBox(width: double.infinity, child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: QVTheme.purple, foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-              ),
-              child: const Text('Enroll Now – ₹4,999'),
-            )),
-            const SizedBox(height: 8),
-            Text("or DM 'AI' on Instagram", style: QVTheme.bodySmall(color: QVTheme.purple)),
-          ]),
-        ),
-        const SizedBox(height: 16),
-      ]),
-    );
-  }
-
-  Widget _M(IconData icon, String text) => Row(mainAxisSize: MainAxisSize.min, children: [
-    Icon(icon, color: QVTheme.purple, size: 13),
-    const SizedBox(width: 5),
-    Text(text, style: QVTheme.bodySmall(color: QVTheme.txtPrimary)),
-  ]);
-}
-
-class _AIPricePanel extends StatelessWidget {
-  final bool mobile;
-  const _AIPricePanel({this.mobile = false});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: mobile ? double.infinity : 200,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: QVTheme.purpleBorder),
-      ),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text('Offer Price', style: QVTheme.bodySmall()),
-        Text('₹29,999', style: QVTheme.h3(color: QVTheme.purple).copyWith(fontSize: 26, letterSpacing: -1)),
-        Text('was ₹39,999', style: QVTheme.bodySmall().copyWith(decoration: TextDecoration.lineThrough)),
-        const SizedBox(height: 6),
-        Text('Pay ₹4,999 to secure seat', style: QVTheme.bodySmall()),
-        const SizedBox(height: 14),
-        SizedBox(width: double.infinity, child: ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            backgroundColor: QVTheme.purple, foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 11),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-          child: const Text('Enroll – ₹4,999', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
-        )),
-        const SizedBox(height: 8),
-        Center(child: Text("DM 'AI' on Instagram",
-            style: QVTheme.bodySmall(color: QVTheme.purple))),
-      ]),
-    );
-  }
-}
-
-// ─── Shared Widgets ───────────────────────────────────────────────────────────
-class _PricePanel extends StatelessWidget {
-  final bool mobile;
-  const _PricePanel({this.mobile = false});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: mobile ? double.infinity : 200,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: QVTheme.tealBorder),
-      ),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text('Total Course Fee', style: QVTheme.bodySmall()),
-        Text('₹22,000', style: QVTheme.h3(color: QVTheme.tealMid).copyWith(fontSize: 26, letterSpacing: -1)),
-        const SizedBox(height: 4),
-        Text('Pay ₹3,000 now to lock your seat', style: QVTheme.bodySmall()),
-        Text('Remaining ₹19,000 before course starts', style: QVTheme.bodySmall()),
-        const SizedBox(height: 14),
-        SizedBox(width: double.infinity, child: ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            backgroundColor: QVTheme.tealMid, foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
-          ),
-          child: const Text('Enroll Now – ₹3,000'),
-        )),
-        const SizedBox(height: 8),
-        Center(child: Text("DM 'DEVOPS' on Instagram",
-            style: QVTheme.bodySmall(color: QVTheme.tealMid))),
-      ]),
-    );
-  }
-}
-
-class _InstructorQuote extends StatelessWidget {
-  final Color color, bg, border;
-  final String label, quote, schedule;
-  final EdgeInsets padding;
-  const _InstructorQuote({
-    required this.color, required this.bg, required this.border,
-    required this.label, required this.quote, required this.schedule,
-    required this.padding,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: Container(
-        padding: const EdgeInsets.all(20),
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Container(
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: bg,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: border),
+          color: const Color(0xFFF5F3FF),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: QVTheme.purpleBorder),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [
-            Icon(Icons.format_quote, color: color, size: 20),
-            const SizedBox(width: 8),
-            Text(label, style: QVTheme.label(color: color)),
-          ]),
-          const SizedBox(height: 10),
-          Text(quote, style: QVTheme.body()),
-          const SizedBox(height: 10),
-          Text(schedule, style: QVTheme.bodySmall(color: color).copyWith(fontWeight: FontWeight.w700)),
+          Text('// FROM US, THE INSTRUCTORS',
+              style: QVTheme.label(color: QVTheme.purple)),
+          const SizedBox(height: 8),
+          Text(
+            "AI engineering isn't just calling OpenAI's API. We built this because we kept seeing engineers "
+            "who could make a chatbot demo but had no idea how to handle memory, scale RAG, or wire up real agents. "
+            "This takes you from 'I called an API once' to 'I built a production AI system.'",
+            style: QVTheme.body(),
+          ),
         ]),
       ),
-    );
+      const SizedBox(height: 24),
+
+      Text('Complete Curriculum — 8 Parts',
+          style: QVTheme.h4().copyWith(color: QVTheme.purple)),
+      const SizedBox(height: 12),
+      ...parts.map((p) => _DetailAccordion(
+        partNum: p.$1, title: p.$2, items: p.$3,
+        color: QVTheme.purple, activeBg: const Color(0xFFF5F3FF),
+        activeBorder: QVTheme.purpleBorder,
+      )),
+      const SizedBox(height: 24),
+
+      Text('8 Portfolio Projects',
+          style: QVTheme.h4().copyWith(color: QVTheme.purple)),
+      const SizedBox(height: 12),
+      ...projects.map((p) => Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(
+          color: QVTheme.bgSurface,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: QVTheme.border),
+        ),
+        child: Row(children: [
+          Text('PROJECT ${p.$1}',
+              style: QVTheme.label(color: QVTheme.purple)),
+          const SizedBox(width: 14),
+          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(p.$2, style: QVTheme.body(color: QVTheme.txtPrimary)
+                .copyWith(fontWeight: FontWeight.w700, fontSize: 13)),
+            Text(p.$3, style: QVTheme.bodySmall()),
+          ])),
+        ]),
+      )),
+      const SizedBox(height: 24),
+
+      Text("What You're Getting",
+          style: QVTheme.h4().copyWith(color: QVTheme.purple)),
+      const SizedBox(height: 10),
+      ...included.map((t) => Padding(
+        padding: const EdgeInsets.only(bottom: 7),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Icon(Icons.check_circle, color: QVTheme.purple, size: 15),
+          const SizedBox(width: 8),
+          Expanded(child: Text(t, style: QVTheme.bodySmall())),
+        ]),
+      )),
+    ]);
   }
 }
 
-class _Accordion extends StatefulWidget {
+// ─── Detail Accordion ─────────────────────────────────────────────────────────
+class _DetailAccordion extends StatefulWidget {
   final String partNum, title;
   final List<String> items;
   final Color color, activeBg, activeBorder;
-  const _Accordion({
+  const _DetailAccordion({
     required this.partNum, required this.title, required this.items,
     required this.color, required this.activeBg, required this.activeBorder,
   });
-  @override State<_Accordion> createState() => _AccordionState();
+  @override State<_DetailAccordion> createState() => _DetailAccordionState();
 }
-class _AccordionState extends State<_Accordion> {
+class _DetailAccordionState extends State<_DetailAccordion> {
   bool _open = false;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => setState(() => _open = !_open),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        margin: const EdgeInsets.only(bottom: 8),
+        duration: const Duration(milliseconds: 180),
+        margin: const EdgeInsets.only(bottom: 6),
         decoration: BoxDecoration(
           color: _open ? widget.activeBg : Colors.white,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(8),
           border: Border.all(color: _open ? widget.activeBorder : QVTheme.border),
         ),
         child: Column(children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
             child: Row(children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                 decoration: BoxDecoration(
                   color: widget.color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: widget.color.withOpacity(0.3)),
+                  borderRadius: BorderRadius.circular(3),
                 ),
-                child: Text(widget.partNum, style: QVTheme.label(color: widget.color)),
+                child: Text(widget.partNum,
+                    style: TextStyle(fontSize: 10, color: widget.color,
+                        fontWeight: FontWeight.w700, fontFamily: 'monospace')),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 10),
               Expanded(child: Text(widget.title,
-                  style: QVTheme.body(color: QVTheme.txtPrimary).copyWith(fontWeight: FontWeight.w600))),
-              Text('${widget.items.length} modules', style: QVTheme.bodySmall()),
-              const SizedBox(width: 8),
+                  style: QVTheme.body(color: QVTheme.txtPrimary)
+                      .copyWith(fontWeight: FontWeight.w600, fontSize: 13))),
+              Text('${widget.items.length}', style: QVTheme.bodySmall()),
+              const SizedBox(width: 6),
               AnimatedRotation(
                 turns: _open ? 0.5 : 0,
-                duration: const Duration(milliseconds: 200),
-                child: Icon(Icons.keyboard_arrow_down, color: widget.color, size: 18),
+                duration: const Duration(milliseconds: 180),
+                child: Icon(Icons.keyboard_arrow_down, color: widget.color, size: 16),
               ),
             ]),
           ),
           AnimatedSize(
-            duration: const Duration(milliseconds: 250),
+            duration: const Duration(milliseconds: 200),
             child: _open
               ? Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+                  padding: const EdgeInsets.fromLTRB(14, 0, 14, 12),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                     children: widget.items.map((item) => Padding(
-                      padding: const EdgeInsets.only(bottom: 7),
+                      padding: const EdgeInsets.only(bottom: 5),
                       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Padding(padding: const EdgeInsets.only(top: 5),
-                          child: Icon(Icons.check_circle_outline, color: widget.color, size: 14)),
-                        const SizedBox(width: 8),
-                        Expanded(child: Text(item, style: QVTheme.bodySmall())),
+                        Padding(padding: const EdgeInsets.only(top: 4),
+                          child: Icon(Icons.check_circle_outline,
+                              color: widget.color, size: 13)),
+                        const SizedBox(width: 7),
+                        Expanded(child: Text(item,
+                            style: QVTheme.bodySmall())),
                       ]),
                     )).toList()),
                 )
               : const SizedBox.shrink(),
           ),
         ]),
-      ),
-    );
-  }
-}
-
-class _ProjectCard extends StatelessWidget {
-  final String num, title, desc;
-  final List<String> tags;
-  final Color color;
-  const _ProjectCard({
-    required this.num, required this.title, required this.desc,
-    required this.tags, required this.color,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.04),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: color.withOpacity(0.2)),
-      ),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('PROJECT $num', style: QVTheme.label(color: color)),
-          const SizedBox(height: 4),
-          Text(title, style: QVTheme.body(color: QVTheme.txtPrimary)
-              .copyWith(fontWeight: FontWeight.w700, fontSize: 13)),
-          if (desc.isNotEmpty) ...[
-            const SizedBox(height: 4),
-            Text(desc, style: QVTheme.bodySmall(), maxLines: 1, overflow: TextOverflow.ellipsis),
-          ],
-          const SizedBox(height: 8),
-          Wrap(spacing: 5, runSpacing: 4,
-            children: tags.map((t) => TechTag(label: t, color: color)).toList()),
-        ],
       ),
     );
   }
@@ -801,23 +678,22 @@ class _BottomCTA extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(isMobile ? 16 : 40, 32, isMobile ? 16 : 40, 40),
-      padding: const EdgeInsets.all(32),
+      margin: EdgeInsets.fromLTRB(isMobile ? 16 : 40, 0, isMobile ? 16 : 40, 32),
+      padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
         color: QVTheme.tealBg,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: QVTheme.tealBorder),
       ),
       child: Column(children: [
         Text('Not sure which to pick?', style: QVTheme.h4()),
-        const SizedBox(height: 8),
+        const SizedBox(height: 6),
         Text(
-          "DM us on Instagram and tell us where you are right now — "
-          "we'll tell you honestly which course makes more sense for you.",
+          "DM us on Instagram — tell us where you are right now and we'll tell you honestly which one makes sense.",
           style: QVTheme.body(color: QVTheme.txtMuted),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 18),
+        const SizedBox(height: 14),
         QVButton(label: "DM 'HELP' on Instagram", onTap: () {}),
       ]),
     );
