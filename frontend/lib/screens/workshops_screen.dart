@@ -1,11 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:go_router/go_router.dart';
 import '../theme/qv_theme.dart';
-import '../models/data.dart';
 import '../widgets/shared.dart';
 
 class WorkshopsScreen extends StatelessWidget {
   const WorkshopsScreen({super.key});
+
+  static const upcoming = [
+    _Webinar(
+      title: 'AI-Ready DevSecOps Live Project on EKS',
+      desc: 'Build a Production-Grade AI-Augmented DevSecOps Pipeline. Real Systems. Real Security. Real Deployment.',
+      date: '9 & 10 May 2026',
+      time: '7:00 PM – 10:00 PM IST',
+      price: '₹2,249',
+      oldPrice: '₹2,499',
+      offer: 'Offer valid till 28 Apr',
+      tags: ['UPCOMING', 'LIMITED SEATS'],
+    ),
+    _Webinar(
+      title: 'Docker, Kubernetes, Observability & Microservices – Beginner\'s Guide',
+      desc: '4-day live program across two weekends — Docker, Kubernetes on-prem, Helm, Prometheus, Grafana.',
+      date: '25, 26 Apr & 2, 3 May 2026',
+      time: '7:00 PM – 9:30 PM IST',
+      price: '₹3,499',
+      tags: ['UPCOMING', 'LIMITED SEATS'],
+    ),
+    _Webinar(
+      title: 'MCP + AI Platform on Kubernetes (EKS)',
+      desc: 'Build a production-grade AI Control Plane on AWS EKS — Model registration, versioning, CI/CD, observability.',
+      date: '11 & 12 April 2026',
+      time: '7:00 PM – 10:00 PM IST',
+      price: '₹2,499',
+      tags: ['UPCOMING', 'LIMITED SEATS'],
+    ),
+  ];
+
+  static const completed = [
+    _Webinar(title: 'AWS + Kubernetes + Claude AI – Your First Production DevOps Project', date: '14 & 15 March 2026', time: '7:30 PM – 9:30 PM IST', price: '₹2,500', tags: []),
+    _Webinar(title: 'Build & Deploy a Production-Grade Microservices E-Commerce Platform', date: '28 & 29 March 2026', time: '7:00 PM – 10:00 PM IST', price: '₹2,499', tags: []),
+    _Webinar(title: 'Docker & Kubernetes Webinar – Live Weekend Program', date: '31 Jan, 1, 7, 8 Feb', time: '7:00 PM – 9:30 PM IST', price: '₹2,999', tags: []),
+    _Webinar(title: 'Terraform Webinar – Infrastructure as Code Mastery', date: '28–31 Jan, 1 Feb', time: '8:30 AM – 9:30 AM IST', price: '₹999', tags: []),
+    _Webinar(title: 'Python for DevOps 2026 – Live Weekend Webinar', date: '10, 11, 17, 18 (Two Weekends)', time: '6:00 PM – 9:00 PM IST', price: '₹1,999', tags: []),
+    _Webinar(title: 'DevOps Roadmap 2026 – Complete Career Guide', date: '28th December 2025', time: '9:00–10:30 AM IST', price: '₹99', tags: []),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -13,46 +50,29 @@ class WorkshopsScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // Hero
           Container(
-            width: double.infinity,
+            color: QVTheme.bgSurface,
             padding: EdgeInsets.fromLTRB(
-                isMobile ? 24 : 80, 120, isMobile ? 24 : 80, 60),
-            decoration: const BoxDecoration(gradient: QVTheme.heroGradient),
+                isMobile ? 24 : 80, 110, isMobile ? 24 : 80, 50),
             child: const SectionHeader(
-              label: 'LIVE WORKSHOPS',
-              title: 'Hands-On. Live. \nIntensive.',
-              subtitle:
-                  '2-day and 4-week bootcamps to get you building real projects fast.',
+              label: 'LIVE & INTERACTIVE',
+              title: 'Live DevOps Webinars',
+              subtitle: 'Learn from industry experts in live, interactive sessions.',
             ),
           ),
-
           Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: isMobile ? 24 : 80, vertical: 60),
+                horizontal: isMobile ? 24 : 80, vertical: 48),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Upcoming label
-                Row(children: [
-                  Container(
-                    width: 8, height: 8,
-                    decoration: const BoxDecoration(
-                        color: QVTheme.orange, shape: BoxShape.circle),
-                  ),
-                  const SizedBox(width: 8),
-                  Text('Upcoming Workshops',
-                      style: QVTheme.h4(color: QVTheme.orange)),
-                ]),
-                const SizedBox(height: 24),
-                ...QVData.workshops.map((w) => Padding(
-                  padding: const EdgeInsets.only(bottom: 24),
-                  child: _WorkshopCard(workshop: w),
-                )),
-                const SizedBox(height: 40),
-                const _WorkshopWhatYouLearn(),
-                const SizedBox(height: 60),
-                const _PastBatchesSection(),
+                _SectionDivider(label: 'Upcoming Webinars', color: QVTheme.tealMid, live: true),
+                const SizedBox(height: 16),
+                ...upcoming.map((w) => _WebinarCard(w: w, done: false)),
+                const SizedBox(height: 32),
+                _SectionDivider(label: 'Completed Webinars', color: QVTheme.txtMuted),
+                const SizedBox(height: 16),
+                ...completed.map((w) => _WebinarCard(w: w, done: true)),
               ],
             ),
           ),
@@ -63,260 +83,123 @@ class WorkshopsScreen extends StatelessWidget {
   }
 }
 
-class _WorkshopCard extends StatelessWidget {
-  final Workshop workshop;
-  const _WorkshopCard({required this.workshop});
+Widget _SectionDivider({required String label, required Color color, bool live = false}) =>
+  Row(children: [
+    Container(width: 8, height: 8,
+        decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+    const SizedBox(width: 8),
+    Text(label, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: color)),
+  ]);
+
+class _Webinar {
+  final String title, date, time, price;
+  final String? desc, oldPrice, offer;
+  final List<String> tags;
+  const _Webinar({
+    required this.title, required this.date, required this.time,
+    required this.price, required this.tags,
+    this.desc, this.oldPrice, this.offer,
+  });
+}
+
+class _WebinarCard extends StatelessWidget {
+  final _Webinar w;
+  final bool done;
+  const _WebinarCard({required this.w, required this.done});
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 768;
-    return GlassCard(
-      hoverable: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          Row(
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(12),
+          bottomRight: Radius.circular(12),
+          topLeft: Radius.circular(2),
+          bottomLeft: Radius.circular(2),
+        ),
+        border: Border(
+          left: BorderSide(
+            color: done ? const Color(0xFFCCCCCC) : QVTheme.tealMid,
+            width: 3,
+          ),
+          top: BorderSide(color: QVTheme.border),
+          right: BorderSide(color: QVTheme.border),
+          bottom: BorderSide(color: QVTheme.border),
+        ),
+      ),
+      child: Opacity(
+        opacity: done ? 0.7 : 1.0,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(children: [
-                      TechTag(label: '⚡ LIVE ONLINE', color: QVTheme.orange),
-                      const SizedBox(width: 8),
-                      TechTag(label: workshop.duration, color: QVTheme.teal),
-                    ]),
-                    const SizedBox(height: 14),
-                    Text(workshop.title, style: QVTheme.display2().copyWith(fontSize: 30)),
-                    Text(workshop.subtitle, style: QVTheme.body(color: QVTheme.orange)),
-                    const SizedBox(height: 10),
-                    Text(workshop.description, style: QVTheme.body(color: QVTheme.textMuted)),
+              Expanded(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (!done && w.tags.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Row(children: w.tags.map((t) => Padding(
+                        padding: const EdgeInsets.only(right: 6),
+                        child: TechTag(label: t, color: QVTheme.orange),
+                      )).toList()),
+                    )
+                  else if (done)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: QVTheme.bgSurface,
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: QVTheme.border),
+                        ),
+                        child: Text('COMPLETED', style: QVTheme.label(color: QVTheme.txtMuted)),
+                      ),
+                    ),
+                  Text(w.title, style: QVTheme.body(color: QVTheme.txtPrimary)
+                      .copyWith(fontWeight: FontWeight.w600, fontSize: 15)),
+                  if (w.desc != null) ...[
+                    const SizedBox(height: 6),
+                    Text(w.desc!, style: QVTheme.bodySmall()),
                   ],
-                ),
+                  const SizedBox(height: 10),
+                  Row(children: [
+                    const Icon(Icons.calendar_today, size: 12, color: QVTheme.tealMid),
+                    const SizedBox(width: 5),
+                    Text(w.date, style: QVTheme.bodySmall()),
+                    const SizedBox(width: 16),
+                    const Icon(Icons.access_time, size: 12, color: QVTheme.tealMid),
+                    const SizedBox(width: 5),
+                    Text(w.time, style: QVTheme.bodySmall()),
+                  ]),
+                ],
+              )),
+              const SizedBox(width: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  if (w.oldPrice != null)
+                    Text(w.oldPrice!, style: QVTheme.bodySmall()
+                        .copyWith(decoration: TextDecoration.lineThrough)),
+                  Text(w.price, style: QVTheme.h4(color: done ? QVTheme.txtMuted : QVTheme.tealMid)
+                      .copyWith(fontSize: 20, letterSpacing: -0.5)),
+                  if (!done) ...[
+                    const SizedBox(height: 10),
+                    QVButton(label: 'Learn More →', onTap: () {}, small: true),
+                    if (w.offer != null) ...[
+                      const SizedBox(height: 6),
+                      Text(w.offer!, style: QVTheme.bodySmall(color: QVTheme.orange)),
+                    ],
+                  ],
+                ],
               ),
-              if (!isMobile) ...[
-                const SizedBox(width: 40),
-                _WorkshopPricePanel(workshop: workshop),
-              ],
             ],
           ),
-          const SizedBox(height: 24),
-          // Schedule
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: QVTheme.navyDeep,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: QVTheme.cardBorder),
-            ),
-            child: Wrap(
-              spacing: 24,
-              runSpacing: 8,
-              children: [
-                _ScheduleItem(icon: Icons.calendar_today, label: workshop.date),
-                _ScheduleItem(icon: Icons.access_time, label: workshop.time),
-                _ScheduleItem(icon: Icons.laptop, label: workshop.mode),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Topics
-          Text('What You\'ll Build:', style: QVTheme.h4().copyWith(fontSize: 16)),
-          const SizedBox(height: 12),
-          ...workshop.topics.map((t) => Padding(
-            padding: const EdgeInsets.only(bottom: 6),
-            child: Row(children: [
-              const Icon(Icons.chevron_right, color: QVTheme.teal, size: 16),
-              const SizedBox(width: 8),
-              Text(t, style: QVTheme.bodySmall()),
-            ]),
-          )),
-          if (isMobile) ...[
-            const SizedBox(height: 20),
-            _WorkshopPricePanel(workshop: workshop, mobile: true),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class _WorkshopPricePanel extends StatelessWidget {
-  final Workshop workshop;
-  final bool mobile;
-  const _WorkshopPricePanel({required this.workshop, this.mobile = false});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: mobile ? double.infinity : 200,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [QVTheme.orange.withOpacity(0.15), QVTheme.navyDeep],
         ),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: QVTheme.orange.withOpacity(0.4)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(workshop.price,
-              style: QVTheme.display2().copyWith(fontSize: 34, color: QVTheme.orange)),
-          Text('One-Time Fee', style: QVTheme.bodySmall()),
-          const SizedBox(height: 20),
-          QVButton(
-            label: 'Register Now →',
-            onTap: () async {
-              final uri = Uri.parse(workshop.registrationUrl);
-              if (await canLaunchUrl(uri)) launchUrl(uri);
-            },
-            variant: ButtonVariant.orange,
-            fullWidth: true,
-          ),
-          const SizedBox(height: 8),
-          Text('⚡ Limited seats', style: QVTheme.bodySmall(color: QVTheme.orange)),
-        ],
-      ),
-    );
-  }
-}
-
-class _ScheduleItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  const _ScheduleItem({required this.icon, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, color: QVTheme.teal, size: 14),
-        const SizedBox(width: 6),
-        Text(label, style: QVTheme.bodySmall(color: QVTheme.offWhite)),
-      ],
-    );
-  }
-}
-
-class _WorkshopWhatYouLearn extends StatelessWidget {
-  const _WorkshopWhatYouLearn();
-
-  static const curriculum = [
-    ('Docker & Containers', 'Images, Volumes, Networks, Docker Compose, Registry push', '🐳'),
-    ('Kubernetes (kubeadm)', 'Cluster setup on AL2023, Calico CNI, Deployments, Services', '☸️'),
-    ('Amazon EKS', 'Provisioning with eksctl, node groups, IAM IRSA, ALB Ingress', '☁️'),
-    ('CI/CD Pipelines', 'GitHub Actions workflows, Docker build & push, EKS deploy', '🔄'),
-    ('Observability', 'Prometheus + Grafana setup, Dashboards, Slack Alerting', '📊'),
-    ('Helm 3', 'Chart creation, values files, repository management', '⛵'),
-    ('ArgoCD & GitOps', 'App of Apps pattern, sync policies, rollback', '🚀'),
-    ('AI in DevOps', 'Claude AI for configs, debugging, and MCP integration', '🤖'),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 768;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SectionHeader(
-          label: 'CURRICULUM',
-          title: 'Full Workshop Curriculum',
-          center: false,
-        ),
-        const SizedBox(height: 32),
-        GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: isMobile ? 1 : 2,
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 16,
-          childAspectRatio: isMobile ? 3 : 3.5,
-          children: curriculum.map((c) => GlassCard(
-            hoverable: true,
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                Text(c.$3, style: const TextStyle(fontSize: 28)),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(c.$1, style: QVTheme.h4().copyWith(fontSize: 15)),
-                      Text(c.$2, style: QVTheme.bodySmall(), maxLines: 2, overflow: TextOverflow.ellipsis),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )).toList(),
-        ),
-      ],
-    );
-  }
-}
-
-class _PastBatchesSection extends StatelessWidget {
-  const _PastBatchesSection();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SectionHeader(
-          label: 'PAST BATCHES',
-          title: 'Trusted by Engineers\nAcross India',
-          center: false,
-        ),
-        const SizedBox(height: 32),
-        Wrap(
-          spacing: 16,
-          runSpacing: 16,
-          children: [
-            _BatchBadge('QV101', 'AWS DevOps', true),
-            _BatchBadge('QV102', 'Docker + K8s', true),
-            _BatchBadge('QV103', 'EKS + Observability', true),
-            _BatchBadge('QV104', 'AI DevSecOps', true),
-            _BatchBadge('QV105', 'Docker + K8s + Obs', false),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _BatchBadge extends StatelessWidget {
-  final String batch;
-  final String title;
-  final bool completed;
-  const _BatchBadge(this.batch, this.title, this.completed);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: BoxDecoration(
-        color: completed ? QVTheme.cardBg : QVTheme.teal.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: completed ? QVTheme.cardBorder : QVTheme.teal.withOpacity(0.4),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(batch, style: QVTheme.label(color: completed ? QVTheme.textMuted : QVTheme.teal)),
-          Text(title, style: QVTheme.bodySmall(color: completed ? QVTheme.offWhite : QVTheme.teal)),
-          if (!completed) Text('● Ongoing', style: QVTheme.label(color: QVTheme.teal).copyWith(fontSize: 10)),
-        ],
       ),
     );
   }

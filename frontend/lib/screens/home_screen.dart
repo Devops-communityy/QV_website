@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -15,13 +14,16 @@ class HomeScreen extends StatelessWidget {
       child: Column(
         children: [
           const _HeroSection(),
-          StatsBar(stats: QVData.stats),
-          const _WhatWeTeachSection(),
-          const _CoursesPreviewSection(),
-          const _WorkshopBannerSection(),
+          StatsBar(stats: const {
+            '2000+': 'Engineers Trained',
+            '85%': 'Placement Rate',
+            '10+': 'Years Experience',
+            '4': 'Real Projects',
+          }),
+          const _CoursesTrackSection(),
+          const _WebinarBannerSection(),
           const _WhyQVSection(),
           const _TestimonialsSection(),
-          const _TrainersSection(),
           const _FAQSection(),
           const _CTASection(),
           const QVFooter(),
@@ -37,58 +39,20 @@ class _HeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final w = MediaQuery.of(context).size.width;
-    final isMobile = w < 768;
-
+    final isMobile = MediaQuery.of(context).size.width < 768;
     return Container(
       width: double.infinity,
-      constraints: const BoxConstraints(minHeight: 700),
-      decoration: const BoxDecoration(gradient: QVTheme.heroGradient),
-      child: Stack(
-        children: [
-          // Background grid
-          Positioned.fill(child: CustomPaint(painter: _GridPainter())),
-          // Glow orbs
-          Positioned(top: -100, right: -100,
-            child: Container(
-              width: 500, height: 500,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(colors: [
-                  QVTheme.teal.withOpacity(0.08),
-                  Colors.transparent,
-                ]),
-              ),
-            ),
-          ),
-          Positioned(bottom: -100, left: -100,
-            child: Container(
-              width: 400, height: 400,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(colors: [
-                  QVTheme.orange.withOpacity(0.06),
-                  Colors.transparent,
-                ]),
-              ),
-            ),
-          ),
-
-          // Content
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-                isMobile ? 24 : 80, 120, isMobile ? 24 : 80, 80),
-            child: isMobile
-                ? _HeroContentMobile()
-                : _HeroContentDesktop(),
-          ),
-        ],
-      ),
+      color: Colors.white,
+      padding: EdgeInsets.fromLTRB(
+          isMobile ? 24 : 80, 100, isMobile ? 24 : 80, 60),
+      child: isMobile ? const _HeroMobile() : const _HeroDesktop(),
     );
   }
 }
 
-class _HeroContentDesktop extends StatelessWidget {
+class _HeroDesktop extends StatelessWidget {
+  const _HeroDesktop();
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -99,71 +63,66 @@ class _HeroContentDesktop extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Badge
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
                 decoration: BoxDecoration(
-                  color: QVTheme.glassBg,
-                  border: Border.all(color: QVTheme.teal.withOpacity(0.3)),
+                  color: QVTheme.tealBg,
                   borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: QVTheme.tealBorder),
                 ),
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Container(width: 8, height: 8,
-                    decoration: const BoxDecoration(
-                        color: QVTheme.teal, shape: BoxShape.circle)),
+                  Container(width: 7, height: 7,
+                      decoration: const BoxDecoration(color: QVTheme.tealMid, shape: BoxShape.circle)),
                   const SizedBox(width: 8),
-                  Text('AI & DevOps Training Platform',
-                      style: QVTheme.label().copyWith(fontSize: 11)),
+                  Text('AI & DEVOPS TRAINING PLATFORM', style: QVTheme.label()),
                 ]),
               ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.3),
-
-              const SizedBox(height: 24),
+              const SizedBox(height: 22),
               Text('Land Your DevOps\nJob in 90 Days',
-                  style: QVTheme.display1()).animate().fadeIn(delay: 400.ms).slideY(begin: 0.2),
-
-              const SizedBox(height: 8),
-              ShaderMask(
-                shaderCallback: (b) => QVTheme.tealGradient.createShader(b),
-                child: Text('Guaranteed Results.',
-                    style: QVTheme.display1().copyWith(fontSize: 52)),
-              ).animate().fadeIn(delay: 600.ms),
-
-              const SizedBox(height: 20),
+                  style: QVTheme.display1()).animate().fadeIn(delay: 400.ms),
+              const SizedBox(height: 6),
+              Text('Guaranteed Results.',
+                  style: QVTheme.display1(color: QVTheme.tealMid)
+                      .copyWith(fontSize: 44)).animate().fadeIn(delay: 600.ms),
+              const SizedBox(height: 18),
               Text(
-                'From Zero to Job-Ready — Join 2000+ engineers who transformed\ntheir careers with our AI-powered, mentor-led DevOps programs.',
-                style: QVTheme.body(color: QVTheme.textMuted),
+                'From Zero to Job-Ready — Join 2000+ engineers who transformed\ntheir careers with our intensive, mentor-led programs.',
+                style: QVTheme.body(),
               ).animate().fadeIn(delay: 800.ms),
-
-              const SizedBox(height: 36),
+              const SizedBox(height: 32),
               Row(children: [
-                QVButton(
-                  label: 'Explore Courses →',
-                  onTap: () => context.go('/courses'),
-                ).animate().fadeIn(delay: 1000.ms).slideX(begin: -0.2),
-                const SizedBox(width: 16),
-                QVButton(
-                  label: 'View Workshops',
-                  onTap: () => context.go('/workshops'),
-                  variant: ButtonVariant.outline,
-                ).animate().fadeIn(delay: 1100.ms).slideX(begin: -0.2),
+                QVButton(label: 'Explore Courses →',
+                    onTap: () => context.go('/courses')),
+                const SizedBox(width: 14),
+                QVButton(label: 'View Webinars',
+                    onTap: () => context.go('/webinars'),
+                    variant: ButtonVariant.outline),
+              ]).animate().fadeIn(delay: 1000.ms),
+              const SizedBox(height: 32),
+              Row(children: [
+                _TrustPill('2000+ Engineers'),
+                const SizedBox(width: 20),
+                _TrustPill('85% Placed'),
+                const SizedBox(width: 20),
+                _TrustPill('4.9 Rating'),
               ]),
-
-              const SizedBox(height: 48),
-              _TrustRow(),
             ],
           ),
         ),
         const SizedBox(width: 60),
         Expanded(
           flex: 4,
-          child: _TerminalWidget().animate().fadeIn(delay: 600.ms).slideX(begin: 0.3),
+          child: const _TerminalWidget()
+              .animate().fadeIn(delay: 600.ms).slideX(begin: 0.3),
         ),
       ],
     );
   }
 }
 
-class _HeroContentMobile extends StatelessWidget {
+class _HeroMobile extends StatelessWidget {
+  const _HeroMobile();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -172,123 +131,93 @@ class _HeroContentMobile extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: QVTheme.glassBg,
-            border: Border.all(color: QVTheme.teal.withOpacity(0.3)),
+            color: QVTheme.tealBg,
             borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: QVTheme.tealBorder),
           ),
-          child: Text('AI & DevOps Training Platform', style: QVTheme.label().copyWith(fontSize: 10)),
+          child: Text('AI & DEVOPS TRAINING PLATFORM', style: QVTheme.label()),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 18),
         Text('Land Your DevOps\nJob in 90 Days', style: QVTheme.display2()),
         const SizedBox(height: 8),
-        ShaderMask(
-          shaderCallback: (b) => QVTheme.tealGradient.createShader(b),
-          child: Text('Guaranteed.', style: QVTheme.display2()),
-        ),
-        const SizedBox(height: 16),
+        Text('Guaranteed Results.', style: QVTheme.h3(color: QVTheme.tealMid)),
+        const SizedBox(height: 14),
         Text('Join 2000+ engineers who transformed their careers.',
-            style: QVTheme.body(color: QVTheme.textMuted)),
-        const SizedBox(height: 28),
-        QVButton(label: 'Explore Courses →', onTap: () => context.go('/courses'), fullWidth: true),
-        const SizedBox(height: 12),
-        QVButton(label: 'View Workshops', onTap: () => context.go('/workshops'),
+            style: QVTheme.body()),
+        const SizedBox(height: 24),
+        QVButton(label: 'Explore Courses →',
+            onTap: () => context.go('/courses'), fullWidth: true),
+        const SizedBox(height: 10),
+        QVButton(label: 'View Webinars',
+            onTap: () => context.go('/webinars'),
             variant: ButtonVariant.outline, fullWidth: true),
-        const SizedBox(height: 32),
-        _TrustRow(),
       ],
     );
   }
 }
 
-class _TrustRow extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        _TrustPill(icon: Icons.people_outline, label: '2000+ Engineers'),
-        const SizedBox(width: 16),
-        _TrustPill(icon: Icons.verified_outlined, label: '85% Placed'),
-        const SizedBox(width: 16),
-        _TrustPill(icon: Icons.star_outline, label: '4.9 Rating'),
-      ],
-    );
-  }
-}
+Widget _TrustPill(String label) => Row(children: [
+  const Icon(Icons.check_circle_outline, color: QVTheme.tealMid, size: 14),
+  const SizedBox(width: 5),
+  Text(label, style: QVTheme.bodySmall()),
+]);
 
-class _TrustPill extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  const _TrustPill({required this.icon, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, color: QVTheme.teal, size: 14),
-        const SizedBox(width: 6),
-        Text(label, style: QVTheme.bodySmall()),
-      ],
-    );
-  }
-}
-
-// ─── Terminal Widget (hero right panel) ───────────────────────────────────────
+// ─── Terminal ─────────────────────────────────────────────────────────────────
 class _TerminalWidget extends StatelessWidget {
+  const _TerminalWidget();
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(0),
       decoration: BoxDecoration(
-        color: QVTheme.navyDeep,
+        color: const Color(0xFF0A0E1A),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: QVTheme.cardBorder),
-        boxShadow: [
-          BoxShadow(color: QVTheme.teal.withOpacity(0.1), blurRadius: 40, spreadRadius: -5),
-        ],
+        border: Border.all(color: const Color(0xFF1E2D4A)),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 20)],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Title bar
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             decoration: const BoxDecoration(
-              color: QVTheme.navyMid,
+              color: Color(0xFF111D35),
               borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-              border: Border(bottom: BorderSide(color: QVTheme.cardBorder)),
+              border: Border(bottom: BorderSide(color: Color(0xFF1E2D4A))),
             ),
-            child: Row(
-              children: [
-                _dot(const Color(0xFFFF5F57)),
-                const SizedBox(width: 6),
-                _dot(const Color(0xFFFFBD2E)),
-                const SizedBox(width: 6),
-                _dot(const Color(0xFF28CA41)),
-                const SizedBox(width: 16),
-                Text('devops-career.sh', style: QVTheme.mono(size: 12)),
-              ],
-            ),
+            child: Row(children: [
+              _Dot(const Color(0xFFFF5F57)),
+              const SizedBox(width: 5),
+              _Dot(const Color(0xFFFFBD2E)),
+              const SizedBox(width: 5),
+              _Dot(const Color(0xFF28CA41)),
+              const SizedBox(width: 14),
+              Text('devops-career.sh',
+                  style: QVTheme.mono(color: const Color(0xFF8896B3))),
+            ]),
           ),
-          // Code content
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _line('# Your DevOps journey starts here', isComment: true),
-                _line(''),
-                _line('student init --name "You" --goal "DevOps Job"'),
-                _line(''),
-                _output('✓ Linux & Shell Scripting'),
-                _output('✓ Docker & Container Networking'),
-                _output('✓ Kubernetes on AWS EKS'),
-                _output('✓ CI/CD with GitHub Actions'),
-                _output('✓ Terraform IaC'),
-                _output('✓ AI-Powered DevSecOps'),
-                _line(''),
-                _line('deploy --resume --interviews --offer'),
-                _line(''),
-                _output('🎉 Offer received: ₹12 LPA at TCS'),
+                _TLine('# Your journey starts here', isComment: true),
+                _TLine(''),
+                _TLine('> student init --goal "DevOps Job"'),
+                _TLine(''),
+                _TSuccess('✓ Linux & Shell Scripting'),
+                _TSuccess('✓ Docker & Kubernetes on EKS'),
+                _TSuccess('✓ CI/CD · Terraform · ArgoCD'),
+                _TSuccess('✓ AI-Powered DevSecOps'),
+                _TLine(''),
+                _TLine('> student init --goal "AI Engineer"'),
+                _TLine(''),
+                _TAi('✓ Python · LLMs · RAG · Agents'),
+                _TAi('✓ LangChain · LangGraph · MCP'),
+                _TLine(''),
+                _TLine('> deploy --resume --offer'),
+                _TLine(''),
+                _TOrange('🎉 Offer: ₹12 LPA @ TCS'),
               ],
             ),
           ),
@@ -297,328 +226,261 @@ class _TerminalWidget extends StatelessWidget {
     );
   }
 
-  Widget _dot(Color c) =>
-      Container(width: 12, height: 12, decoration: BoxDecoration(color: c, shape: BoxShape.circle));
+  Widget _Dot(Color c) =>
+      Container(width: 10, height: 10, decoration: BoxDecoration(color: c, shape: BoxShape.circle));
 
-  Widget _line(String text, {bool isComment = false}) => Padding(
-        padding: const EdgeInsets.only(bottom: 4),
-        child: Text(
-          text.isEmpty ? '' : (isComment ? text : '> $text'),
-          style: QVTheme.mono(
-              color: isComment ? QVTheme.textMuted : QVTheme.offWhite, size: 12),
-        ),
-      );
+  Widget _TLine(String t, {bool isComment = false}) => Padding(
+    padding: const EdgeInsets.only(bottom: 3),
+    child: Text(t.isEmpty ? '' : t,
+        style: QVTheme.mono(
+            color: isComment ? const Color(0xFF8896B3) : const Color(0xFFF0F4FF),
+            size: 12)),
+  );
 
-  Widget _output(String text) => Padding(
-        padding: const EdgeInsets.only(bottom: 3, left: 12),
-        child: Text(text, style: QVTheme.mono(color: QVTheme.teal, size: 12)),
-      );
+  Widget _TSuccess(String t) => Padding(
+    padding: const EdgeInsets.only(bottom: 3),
+    child: Text(t, style: QVTheme.mono(color: const Color(0xFF00D4C8), size: 12)),
+  );
+
+  Widget _TAi(String t) => Padding(
+    padding: const EdgeInsets.only(bottom: 3),
+    child: Text(t, style: QVTheme.mono(color: const Color(0xFFAFA9EC), size: 12)),
+  );
+
+  Widget _TOrange(String t) => Text(t,
+      style: QVTheme.mono(color: const Color(0xFFFF8C42), size: 12));
 }
 
-// ─── What We Teach ─────────────────────────────────────────────────────────────
-class _WhatWeTeachSection extends StatelessWidget {
-  const _WhatWeTeachSection();
-
-  static const topics = [
-    ('☸️', 'Kubernetes & EKS', 'From kubeadm to production-grade EKS clusters'),
-    ('☁️', 'AWS Cloud', 'EC2, EKS, S3, RDS, VPC, IAM, CloudWatch'),
-    ('🤖', 'AI in DevOps', 'Claude AI, MCP, Agentic AI workflows'),
-    ('🔒', 'DevSecOps', 'SAST, DAST, Container Security, Vault'),
-    ('🔄', 'CI/CD Pipelines', 'GitHub Actions, Jenkins, ArgoCD, GitOps'),
-    ('📊', 'Observability', 'Prometheus, Grafana, Alerting, Dashboards'),
-    ('🏗️', 'Terraform IaC', 'Infrastructure as Code at scale'),
-    ('🐳', 'Docker', 'Containers, Networking, Compose, Registry'),
-  ];
+// ─── Course Tracks ────────────────────────────────────────────────────────────
+class _CoursesTrackSection extends StatelessWidget {
+  const _CoursesTrackSection();
 
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: 80),
+      padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: 60),
       child: Column(
         children: [
           const SectionHeader(
-            label: 'CURRICULUM',
-            title: 'Everything You Need\nto Land the Job',
-            subtitle: 'A complete AI & DevOps curriculum built for the 2026 job market.',
+            label: 'CHOOSE YOUR TRACK',
+            title: 'Two Job-Ready Programs',
+            subtitle: 'DevOps on AWS or AI & LLM Engineering — both with live classes and real projects.',
           ),
-          const SizedBox(height: 48),
-          GridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: isMobile ? 2 : 4,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
-            childAspectRatio: isMobile ? 1.1 : 1.3,
-            children: topics.map((t) => _TopicCard(
-              emoji: t.$1, title: t.$2, desc: t.$3,
-            )).toList(),
-          ),
+          const SizedBox(height: 36),
+          isMobile
+              ? Column(children: [
+                  _TrackCard(
+                    tag: 'AWS DEVOPS', tagColor: QVTheme.tealMid,
+                    title: 'Complete AWS DevOps Course',
+                    subtitle: '2–3 Months · Online & Hyderabad',
+                    desc: 'Linux → Docker → Kubernetes → AWS → Terraform → CI/CD. 4 production-grade projects.',
+                    price: '₹22,000', priceSub: 'Pay ₹3,000 to enroll',
+                    tags: ['Linux', 'Docker', 'Kubernetes', 'AWS', 'Terraform'],
+                    accentColor: QVTheme.tealMid,
+                    onTap: () => context.go('/courses/aws-devops'),
+                  ),
+                  const SizedBox(height: 16),
+                  _TrackCard(
+                    tag: 'AI + LLM', tagColor: QVTheme.purple,
+                    title: 'AI & LLM Engineering Bootcamp',
+                    subtitle: '45 Days · Mon–Fri · 8:30–9:30 AM IST',
+                    desc: 'Python → LLMs → RAG → Agents → LangGraph → MCP. 8 production AI projects.',
+                    price: '₹29,999', priceSub: 'Was ₹39,999',
+                    tags: ['Python', 'LLMs', 'RAG', 'LangChain', 'MCP'],
+                    accentColor: QVTheme.purple,
+                    onTap: () => context.go('/courses/ai-llm-bootcamp'),
+                  ),
+                ])
+              : Row(children: [
+                  Expanded(child: _TrackCard(
+                    tag: 'AWS DEVOPS', tagColor: QVTheme.tealMid,
+                    title: 'Complete AWS DevOps Course',
+                    subtitle: '2–3 Months · Online & Hyderabad',
+                    desc: 'Linux → Docker → Kubernetes → AWS → Terraform → CI/CD. 4 production-grade projects.',
+                    price: '₹22,000', priceSub: 'Pay ₹3,000 to enroll',
+                    tags: ['Linux', 'Docker', 'Kubernetes', 'AWS', 'Terraform'],
+                    accentColor: QVTheme.tealMid,
+                    onTap: () => context.go('/courses/aws-devops'),
+                  )),
+                  const SizedBox(width: 20),
+                  Expanded(child: _TrackCard(
+                    tag: 'AI + LLM', tagColor: QVTheme.purple,
+                    title: 'AI & LLM Engineering Bootcamp',
+                    subtitle: '45 Days · Mon–Fri · 8:30–9:30 AM IST',
+                    desc: 'Python → LLMs → RAG → Agents → LangGraph → MCP. 8 production AI projects.',
+                    price: '₹29,999', priceSub: 'Was ₹39,999',
+                    tags: ['Python', 'LLMs', 'RAG', 'LangChain', 'MCP'],
+                    accentColor: QVTheme.purple,
+                    onTap: () => context.go('/courses/ai-llm-bootcamp'),
+                  )),
+                ]),
         ],
       ),
     );
   }
 }
 
-class _TopicCard extends StatefulWidget {
-  final String emoji;
-  final String title;
-  final String desc;
-  const _TopicCard({required this.emoji, required this.title, required this.desc});
-
-  @override
-  State<_TopicCard> createState() => _TopicCardState();
+class _TrackCard extends StatefulWidget {
+  final String tag, title, subtitle, desc, price, priceSub;
+  final List<String> tags;
+  final Color tagColor, accentColor;
+  final VoidCallback onTap;
+  const _TrackCard({
+    required this.tag, required this.tagColor, required this.title,
+    required this.subtitle, required this.desc, required this.price,
+    required this.priceSub, required this.tags, required this.accentColor,
+    required this.onTap,
+  });
+  @override State<_TrackCard> createState() => _TrackCardState();
 }
-
-class _TopicCardState extends State<_TopicCard> {
+class _TrackCardState extends State<_TrackCard> {
   bool _hover = false;
-
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
+      cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _hover = true),
       onExit: (_) => setState(() => _hover = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [QVTheme.cardBg, Color(0xFF0F172A)],
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: _hover ? widget.accentColor : QVTheme.border,
+              width: _hover ? 2 : 1,
+            ),
           ),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: _hover ? QVTheme.teal.withOpacity(0.5) : QVTheme.cardBorder,
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.emoji, style: const TextStyle(fontSize: 28)),
-            const SizedBox(height: 12),
-            Text(widget.title, style: QVTheme.h4().copyWith(fontSize: 15)),
-            const SizedBox(height: 6),
-            Text(widget.desc, style: QVTheme.bodySmall(), maxLines: 2, overflow: TextOverflow.ellipsis),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ─── Courses Preview ───────────────────────────────────────────────────────────
-class _CoursesPreviewSection extends StatelessWidget {
-  const _CoursesPreviewSection();
-
-  @override
-  Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 768;
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: 80),
-      color: QVTheme.cardBg.withOpacity(0.3),
-      child: Column(
-        children: [
-          const SectionHeader(
-            label: 'COURSES',
-            title: 'Pick Your Path\nto a DevOps Career',
-          ),
-          const SizedBox(height: 48),
-          ...QVData.courses.map((c) => Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: _CourseCard(course: c),
-          )),
-          const SizedBox(height: 16),
-          QVButton(
-            label: 'View All Courses →',
-            onTap: () => context.go('/courses'),
-            variant: ButtonVariant.outline,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _CourseCard extends StatelessWidget {
-  final Course course;
-  const _CourseCard({required this.course});
-
-  @override
-  Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 768;
-    return GlassCard(
-      hoverable: true,
-      onTap: () => context.go('/courses'),
-      child: isMobile
-          ? _CourseCardContentMobile(course: course)
-          : _CourseCardContentDesktop(course: course),
-    );
-  }
-}
-
-class _CourseCardContentDesktop extends StatelessWidget {
-  final Course course;
-  const _CourseCardContentDesktop({required this.course});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 5,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(children: [
-                TechTag(label: course.badge),
-                if (course.isFeatured) ...[
-                  const SizedBox(width: 8),
-                  TechTag(label: 'FEATURED', color: QVTheme.orange),
-                ],
-              ]),
+              TechTag(label: widget.tag, color: widget.tagColor),
               const SizedBox(height: 14),
-              Text(course.title, style: QVTheme.h3()),
-              Text(course.subtitle, style: QVTheme.body(color: QVTheme.teal)),
+              Text(widget.title, style: QVTheme.h4()),
+              const SizedBox(height: 4),
+              Text(widget.subtitle,
+                  style: QVTheme.bodySmall(color: widget.accentColor)),
               const SizedBox(height: 10),
-              Text(course.description, style: QVTheme.bodySmall(), maxLines: 2, overflow: TextOverflow.ellipsis),
+              Text(widget.desc, style: QVTheme.bodySmall()),
               const SizedBox(height: 16),
-              Wrap(
-                spacing: 8, runSpacing: 6,
-                children: course.tags.map((t) => TechTag(label: t)).toList(),
+              Wrap(spacing: 6, runSpacing: 6,
+                  children: widget.tags.map((t) =>
+                      TechTag(label: t, color: widget.tagColor)).toList()),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(widget.price,
+                        style: QVTheme.h3(color: widget.accentColor)
+                            .copyWith(fontSize: 22)),
+                    Text(widget.priceSub, style: QVTheme.bodySmall()),
+                  ]),
+                  QVButton(
+                    label: 'View Details →',
+                    onTap: widget.onTap,
+                    small: true,
+                    variant: widget.accentColor == QVTheme.purple
+                        ? ButtonVariant.purple : ButtonVariant.primary,
+                  ),
+                ],
               ),
             ],
           ),
         ),
-        const SizedBox(width: 40),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(course.price,
-                style: QVTheme.display2().copyWith(fontSize: 32, color: QVTheme.teal)),
-            const SizedBox(height: 4),
-            Text('One-time payment', style: QVTheme.bodySmall()),
-            const SizedBox(height: 8),
-            Text('⏱ ${course.duration}', style: QVTheme.bodySmall()),
-            Text('📈 ${course.level}', style: QVTheme.bodySmall()),
-            const SizedBox(height: 20),
-            QVButton(label: 'Learn More →', onTap: () => context.go('/courses')),
-          ],
-        ),
-      ],
+      ),
     );
   }
 }
 
-class _CourseCardContentMobile extends StatelessWidget {
-  final Course course;
-  const _CourseCardContentMobile({required this.course});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TechTag(label: course.badge),
-        const SizedBox(height: 12),
-        Text(course.title, style: QVTheme.h4()),
-        Text(course.subtitle, style: QVTheme.body(color: QVTheme.teal).copyWith(fontSize: 14)),
-        const SizedBox(height: 8),
-        Text(course.price, style: QVTheme.h3().copyWith(color: QVTheme.teal, fontSize: 28)),
-        const SizedBox(height: 12),
-        Wrap(spacing: 6, runSpacing: 6,
-          children: course.tags.take(4).map((t) => TechTag(label: t)).toList()),
-        const SizedBox(height: 16),
-        QVButton(label: 'Learn More →', onTap: () => context.go('/courses'), fullWidth: true),
-      ],
-    );
-  }
-}
-
-// ─── Workshop Banner ───────────────────────────────────────────────────────────
-class _WorkshopBannerSection extends StatelessWidget {
-  const _WorkshopBannerSection();
+// ─── Webinar Banner ───────────────────────────────────────────────────────────
+class _WebinarBannerSection extends StatelessWidget {
+  const _WebinarBannerSection();
 
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
-    final ws = QVData.workshops.first;
-
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: 40),
-      padding: const EdgeInsets.all(40),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [QVTheme.navyMid, QVTheme.orange.withOpacity(0.1)],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: QVTheme.orange.withOpacity(0.3)),
+      color: QVTheme.bgSurface,
+      padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 24 : 80, vertical: 60),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SectionHeader(
+            label: 'UPCOMING WEBINAR',
+            title: 'AI-Ready DevSecOps\nLive Project on EKS',
+            center: false,
+          ),
+          const SizedBox(height: 24),
+          Container(
+            padding: const EdgeInsets.all(28),
+            decoration: BoxDecoration(
+              color: QVTheme.orangeBg,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: QVTheme.orangeBorder),
+            ),
+            child: isMobile
+                ? _WebinarBannerMobile()
+                : _WebinarBannerDesktop(),
+          ),
+        ],
       ),
-      child: isMobile
-          ? _WorkshopBannerMobile(ws: ws)
-          : _WorkshopBannerDesktop(ws: ws),
     );
   }
 }
 
-class _WorkshopBannerDesktop extends StatelessWidget {
-  final Workshop ws;
-  const _WorkshopBannerDesktop({required this.ws});
-
+class _WebinarBannerDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          flex: 6,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(children: [
-                TechTag(label: '⚡ UPCOMING WORKSHOP', color: QVTheme.orange),
-                const SizedBox(width: 8),
-                TechTag(label: '🤖 AI-POWERED', color: QVTheme.teal),
-              ]),
-              const SizedBox(height: 16),
-              Text(ws.title, style: QVTheme.display2().copyWith(fontSize: 36)),
-              Text(ws.subtitle, style: QVTheme.body(color: QVTheme.orange)),
-              const SizedBox(height: 12),
-              Text(ws.description, style: QVTheme.bodySmall()),
-              const SizedBox(height: 16),
-              Row(children: [
-                const Icon(Icons.calendar_today, color: QVTheme.teal, size: 14),
-                const SizedBox(width: 6),
-                Text(ws.date, style: QVTheme.bodySmall(color: QVTheme.teal)),
-                const SizedBox(width: 20),
-                const Icon(Icons.access_time, color: QVTheme.teal, size: 14),
-                const SizedBox(width: 6),
-                Text(ws.time, style: QVTheme.bodySmall(color: QVTheme.teal)),
-                const SizedBox(width: 20),
-                const Icon(Icons.laptop, color: QVTheme.teal, size: 14),
-                const SizedBox(width: 6),
-                Text(ws.mode, style: QVTheme.bodySmall(color: QVTheme.teal)),
-              ]),
-            ],
-          ),
-        ),
-        const SizedBox(width: 40),
+        Expanded(child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              TechTag(label: 'UPCOMING', color: QVTheme.orange),
+              const SizedBox(width: 8),
+              TechTag(label: 'LIMITED SEATS'),
+            ]),
+            const SizedBox(height: 14),
+            Text('Build a Production-Grade AI-Augmented DevSecOps Pipeline on AWS EKS',
+                style: QVTheme.h4()),
+            const SizedBox(height: 8),
+            Text('Real Systems. Real Security. Real Deployment. AI at every security checkpoint.',
+                style: QVTheme.body()),
+            const SizedBox(height: 14),
+            Row(children: [
+              const Icon(Icons.calendar_today, size: 13, color: QVTheme.tealMid),
+              const SizedBox(width: 6),
+              Text('9 & 10 May 2026', style: QVTheme.bodySmall()),
+              const SizedBox(width: 20),
+              const Icon(Icons.access_time, size: 13, color: QVTheme.tealMid),
+              const SizedBox(width: 6),
+              Text('7:00 PM – 10:00 PM IST', style: QVTheme.bodySmall()),
+            ]),
+          ],
+        )),
+        const SizedBox(width: 32),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text(ws.price, style: QVTheme.display2().copyWith(fontSize: 40, color: QVTheme.orange)),
-            Text('One-Time Fee', style: QVTheme.bodySmall()),
-            const SizedBox(height: 20),
-            QVButton(
-              label: 'Register Now →',
-              onTap: () => context.go('/workshops'),
-              variant: ButtonVariant.orange,
-            ),
-            const SizedBox(height: 8),
-            Text('⚡ Limited seats available', style: QVTheme.bodySmall(color: QVTheme.orange)),
+            Text('₹2,249', style: QVTheme.h3(color: QVTheme.orange)
+                .copyWith(fontSize: 30, letterSpacing: -1)),
+            Text('₹2,499', style: QVTheme.bodySmall()
+                .copyWith(decoration: TextDecoration.lineThrough)),
+            const SizedBox(height: 14),
+            QVButton(label: 'Register Now →',
+                onTap: () => context.go('/webinars'),
+                variant: ButtonVariant.orange),
+            const SizedBox(height: 6),
+            Text('Offer valid till 28 Apr',
+                style: QVTheme.bodySmall(color: QVTheme.orange)),
           ],
         ),
       ],
@@ -626,63 +488,61 @@ class _WorkshopBannerDesktop extends StatelessWidget {
   }
 }
 
-class _WorkshopBannerMobile extends StatelessWidget {
-  final Workshop ws;
-  const _WorkshopBannerMobile({required this.ws});
-
+class _WebinarBannerMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TechTag(label: '⚡ UPCOMING WORKSHOP', color: QVTheme.orange),
+        TechTag(label: 'UPCOMING', color: QVTheme.orange),
         const SizedBox(height: 12),
-        Text(ws.title, style: QVTheme.h3()),
-        Text(ws.subtitle, style: QVTheme.body(color: QVTheme.orange)),
+        Text('AI-Ready DevSecOps Live Project on EKS', style: QVTheme.h4()),
         const SizedBox(height: 8),
-        Text(ws.price, style: QVTheme.h3().copyWith(color: QVTheme.orange, fontSize: 32)),
-        const SizedBox(height: 16),
-        QVButton(
-          label: 'Register Now →', onTap: () => context.go('/workshops'),
-          variant: ButtonVariant.orange, fullWidth: true,
-        ),
+        Text('₹2,249', style: QVTheme.h3(color: QVTheme.orange)
+            .copyWith(fontSize: 26, letterSpacing: -1)),
+        Text('₹2,499', style: QVTheme.bodySmall()
+            .copyWith(decoration: TextDecoration.lineThrough)),
+        const SizedBox(height: 14),
+        QVButton(label: 'Register Now →',
+            onTap: () => context.go('/webinars'),
+            variant: ButtonVariant.orange, fullWidth: true),
       ],
     );
   }
 }
 
-// ─── Why QV ────────────────────────────────────────────────────────────────────
+// ─── Why QV ───────────────────────────────────────────────────────────────────
 class _WhyQVSection extends StatelessWidget {
   const _WhyQVSection();
 
   static const features = [
-    (Icons.code, 'Real-World Projects', 'Build 4 production-grade projects that go directly on your resume — not toy apps.', QVTheme.teal),
-    (Icons.psychology, '1:1 Expert Mentorship', 'Direct access to trainers with 10-13 years of real industry experience at top companies.', QVTheme.orange),
-    (Icons.work, 'Career Support', 'Resume writing, LinkedIn optimization, mock interviews, and job referrals included.', QVTheme.teal),
-    (Icons.smart_toy, 'AI-Integrated Curriculum', 'Learn to use Claude AI, MCP, and agentic tools as a DevOps engineer — not just theory.', QVTheme.orange),
-    (Icons.people, 'Community Access', 'Join 2000+ engineers on WhatsApp & Discord. Alumni network actively shares job leads.', QVTheme.teal),
-    (Icons.replay, 'Lifetime Access', 'All recordings, materials, and future updates. Re-watch anytime — your learning never expires.', QVTheme.orange),
+    (Icons.code, 'Real-World Projects', 'Build production-grade applications that go directly on your resume.', QVTheme.tealMid),
+    (Icons.work_outline, 'Career Support', 'Resume & LinkedIn optimization, mock interviews, and placement referrals.', QVTheme.orange),
+    (Icons.psychology, 'Expert Mentorship', '1:1 guidance from senior engineers with 10–13 years of industry experience.', QVTheme.tealMid),
+    (Icons.smart_toy, 'AI-Integrated Curriculum', 'Learn Claude AI, MCP, and agentic DevOps workflows — not just theory.', QVTheme.purple),
+    (Icons.people_outline, 'Community Access', '2000+ engineers on WhatsApp & Discord. Alumni share job leads actively.', QVTheme.tealMid),
+    (Icons.replay, 'Lifetime Access', 'All recordings, materials, and future curriculum updates. Never expires.', QVTheme.orange),
   ];
 
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: 80),
+      padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: 60),
       child: Column(
         children: [
           const SectionHeader(
             label: 'WHY QUANTUM VECTOR',
             title: 'Not Just Training.\nA Career Launch Pad.',
           ),
-          const SizedBox(height: 48),
+          const SizedBox(height: 40),
           GridView.count(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             crossAxisCount: isMobile ? 1 : 3,
-            mainAxisSpacing: 20,
-            crossAxisSpacing: 20,
-            childAspectRatio: isMobile ? 2.5 : 1.4,
+            mainAxisSpacing: 16,
+            crossAxisSpacing: 16,
+            childAspectRatio: isMobile ? 3.5 : 1.6,
             children: features.map((f) => _FeatureCard(
               icon: f.$1, title: f.$2, desc: f.$3, color: f.$4,
             )).toList(),
@@ -695,221 +555,139 @@ class _WhyQVSection extends StatelessWidget {
 
 class _FeatureCard extends StatelessWidget {
   final IconData icon;
-  final String title;
-  final String desc;
+  final String title, desc;
   final Color color;
-  const _FeatureCard({required this.icon, required this.title, required this.desc, required this.color});
+  const _FeatureCard({required this.icon, required this.title,
+    required this.desc, required this.color});
+
+  Color get _bg => color == QVTheme.orange ? QVTheme.orangeBg
+      : color == QVTheme.purple ? QVTheme.purpleBg : QVTheme.tealBg;
 
   @override
   Widget build(BuildContext context) {
-    return GlassCard(
-      hoverable: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 44, height: 44,
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: color.withOpacity(0.2)),
-            ),
-            child: Icon(icon, color: color, size: 22),
-          ),
-          const SizedBox(height: 14),
-          Text(title, style: QVTheme.h4().copyWith(fontSize: 17)),
-          const SizedBox(height: 8),
-          Text(desc, style: QVTheme.bodySmall()),
-        ],
-      ),
-    );
+    return GlassCard(hoverable: true, child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 40, height: 40,
+          decoration: BoxDecoration(color: _bg, borderRadius: BorderRadius.circular(9)),
+          child: Icon(icon, color: color, size: 20),
+        ),
+        const SizedBox(height: 12),
+        Text(title, style: QVTheme.h4().copyWith(fontSize: 15)),
+        const SizedBox(height: 6),
+        Text(desc, style: QVTheme.bodySmall()),
+      ],
+    ));
   }
 }
 
-// ─── Testimonials ──────────────────────────────────────────────────────────────
+// ─── Testimonials ─────────────────────────────────────────────────────────────
 class _TestimonialsSection extends StatelessWidget {
   const _TestimonialsSection();
 
-  @override
-  Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 768;
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: 80),
-      color: QVTheme.cardBg.withOpacity(0.2),
-      child: Column(
-        children: [
-          const SectionHeader(
-            label: 'SUCCESS STORIES',
-            title: '2000+ Engineers.\nReal Results.',
-          ),
-          const SizedBox(height: 48),
-          SizedBox(
-            height: 220,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: QVData.testimonials.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 20),
-              itemBuilder: (_, i) => _TestimonialCard(t: QVData.testimonials[i]),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TestimonialCard extends StatelessWidget {
-  final Testimonial t;
-  const _TestimonialCard({required this.t});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 320,
-      child: GlassCard(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(children: List.generate(5, (_) =>
-              const Icon(Icons.star, color: QVTheme.orange, size: 14))),
-            const SizedBox(height: 12),
-            Text('"${t.quote}"',
-                style: QVTheme.body(color: QVTheme.offWhite).copyWith(fontSize: 14),
-                maxLines: 4, overflow: TextOverflow.ellipsis),
-            const Spacer(),
-            Row(children: [
-              Container(
-                width: 36, height: 36,
-                decoration: BoxDecoration(
-                  gradient: QVTheme.tealGradient,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Text(t.name[0], style: QVTheme.h4().copyWith(fontSize: 16, color: QVTheme.navyDeep)),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(t.name, style: QVTheme.body().copyWith(fontWeight: FontWeight.w700, fontSize: 14)),
-                  Text('${t.role} @ ${t.company}', style: QVTheme.bodySmall(color: QVTheme.teal)),
-                ],
-              ),
-            ]),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ─── Trainers ──────────────────────────────────────────────────────────────────
-class _TrainersSection extends StatelessWidget {
-  const _TrainersSection();
-
-  @override
-  Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 768;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: 80),
-      child: Column(
-        children: [
-          const SectionHeader(
-            label: 'YOUR MENTORS',
-            title: 'Learn From Engineers\nWho\'ve Done It',
-          ),
-          const SizedBox(height: 48),
-          isMobile
-              ? Column(
-                  children: QVData.trainers.map((t) => Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: _TrainerCard(trainer: t),
-                  )).toList(),
-                )
-              : Row(
-                  children: QVData.trainers.map((t) => Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: _TrainerCard(trainer: t),
-                    ),
-                  )).toList(),
-                ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TrainerCard extends StatelessWidget {
-  final Trainer trainer;
-  const _TrainerCard({required this.trainer});
-
-  @override
-  Widget build(BuildContext context) {
-    return GlassCard(
-      hoverable: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(children: [
-            Container(
-              width: 60, height: 60,
-              decoration: BoxDecoration(
-                gradient: QVTheme.tealGradient,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Text(trainer.name[0],
-                    style: QVTheme.display2().copyWith(fontSize: 26, color: QVTheme.navyDeep)),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(trainer.name, style: QVTheme.h4()),
-              Text(trainer.title, style: QVTheme.bodySmall(color: QVTheme.teal)),
-              Text('${trainer.yearsExp}+ years experience', style: QVTheme.bodySmall()),
-            ]),
-          ]),
-          const SizedBox(height: 16),
-          Text(trainer.bio, style: QVTheme.bodySmall()),
-          const SizedBox(height: 16),
-          Wrap(
-            spacing: 8, runSpacing: 6,
-            children: trainer.expertise.map((e) => TechTag(label: e)).toList(),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── FAQ ───────────────────────────────────────────────────────────────────────
-class _FAQSection extends StatelessWidget {
-  const _FAQSection();
-
-  static const faqs = [
-    ('Who is this for?', 'Perfect for freshers, career changers, and working professionals looking to transition into DevOps or upskill. No prior DevOps experience needed — just basic programming/Linux knowledge.'),
-    ('What makes Quantum Vector different?', 'We combine real production projects, AI-powered tooling curriculum (Claude AI, MCP, Agentic AI), 1:1 mentorship from senior engineers, and strong placement support. Not just video lectures.'),
-    ('How long is the program?', 'The flagship AWS DevOps course is 2-3 months of live sessions (1 hour/day). Workshops are intensive 2-day or 4-week formats. All sessions are recorded for lifetime access.'),
-    ('Do you help with job placement?', 'Yes — resume writing, LinkedIn profile optimization, mock technical interviews, and referrals to our hiring partner network (50+ companies). 85% placement rate within 90 days.'),
-    ('What if I fall behind?', 'All sessions are recorded. You can rewatch anytime. Mentors are available on WhatsApp for doubts. We work at your pace without leaving anyone behind.'),
+  static const testimonials = [
+    ('Ravi', 'Capgemini', 'Switched from QA to DevOps in just a few months. The mentors were always available!'),
+    ('Priya', 'Infosys', 'Real projects made the difference. Landed my first DevOps job at Infosys!'),
+    ('Sandeep', 'TCS', 'Resume help was a game changer. Got 3 MNC interviews in a month.'),
+    ('Anjali', 'Cognizant', 'Mock interviews gave me confidence to ace my Azure DevOps interview.'),
   ];
 
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: 80),
-      color: QVTheme.cardBg.withOpacity(0.2),
+      color: QVTheme.bgSurface,
+      padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 24 : 80, vertical: 60),
       child: Column(
         children: [
-          const SectionHeader(
-            label: 'FAQ',
-            title: 'Questions?\nWe\'ve Got Answers.',
+          const SectionHeader(label: 'SUCCESS STORIES', title: 'What Our Alumni Say'),
+          const SizedBox(height: 36),
+          GridView.count(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: isMobile ? 1 : 4,
+            mainAxisSpacing: 14,
+            crossAxisSpacing: 14,
+            childAspectRatio: isMobile ? 2.5 : 1.1,
+            children: testimonials.map((t) => _TestiCard(
+              name: t.$1, company: t.$2, quote: t.$3,
+            )).toList(),
           ),
-          const SizedBox(height: 48),
-          ...faqs.map((f) => _FAQItem(q: f.$1, a: f.$2)),
+        ],
+      ),
+    );
+  }
+}
+
+class _TestiCard extends StatelessWidget {
+  final String name, company, quote;
+  const _TestiCard({required this.name, required this.company, required this.quote});
+
+  @override
+  Widget build(BuildContext context) {
+    return GlassCard(child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(children: List.generate(5, (_) =>
+            const Icon(Icons.star, color: Color(0xFFBA7517), size: 13))),
+        const SizedBox(height: 10),
+        Expanded(child: Text('"$quote"',
+            style: QVTheme.bodySmall().copyWith(fontStyle: FontStyle.italic))),
+        const SizedBox(height: 12),
+        Row(children: [
+          Container(
+            width: 30, height: 30,
+            decoration: BoxDecoration(color: QVTheme.tealBg, shape: BoxShape.circle),
+            child: Center(child: Text(name[0],
+                style: QVTheme.bodySmall(color: QVTheme.tealMid)
+                    .copyWith(fontWeight: FontWeight.w700))),
+          ),
+          const SizedBox(width: 8),
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(name, style: QVTheme.bodySmall(color: QVTheme.txtPrimary)
+                .copyWith(fontWeight: FontWeight.w700)),
+            Text(company, style: QVTheme.bodySmall(color: QVTheme.tealMid)),
+          ]),
+        ]),
+      ],
+    ));
+  }
+}
+
+// ─── FAQ ─────────────────────────────────────────────────────────────────────
+class _FAQSection extends StatelessWidget {
+  const _FAQSection();
+
+  static const faqs = [
+    ('Who is this program for?',
+     'Perfect for freshers, career changers, and professionals looking to transition into DevOps or AI engineering. No prior experience needed.'),
+    ('What makes DCLP different?',
+     'We combine real production projects, AI-powered curriculum (Claude AI, MCP), 1:1 mentorship from senior engineers, and strong placement support — not just video lectures.'),
+    ('How long is the program?',
+     'The AWS DevOps course is 2–3 months (1 hr/day). The AI & LLM Bootcamp is 45 days Mon–Fri. All sessions are recorded for lifetime access.'),
+    ('Do you help with job placement?',
+     'Yes — resume writing, LinkedIn optimization, mock technical interviews, and referrals to 50+ hiring partners. 85% placement rate within 90 days.'),
+    ('What if I cannot keep up?',
+     'All sessions are recorded. Mentors are available on WhatsApp for doubts. We work at your pace — no one gets left behind.'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 768;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: 60),
+      child: Column(
+        children: [
+          const SectionHeader(label: 'FAQ', title: 'Questions? We\'ve Got Answers.'),
+          const SizedBox(height: 36),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 680),
+            child: Column(
+              children: faqs.map((f) => _FAQItem(q: f.$1, a: f.$2)).toList(),
+            ),
+          ),
         ],
       ),
     );
@@ -917,60 +695,54 @@ class _FAQSection extends StatelessWidget {
 }
 
 class _FAQItem extends StatefulWidget {
-  final String q;
-  final String a;
+  final String q, a;
   const _FAQItem({required this.q, required this.a});
-
-  @override
-  State<_FAQItem> createState() => _FAQItemState();
+  @override State<_FAQItem> createState() => _FAQItemState();
 }
-
 class _FAQItemState extends State<_FAQItem> {
   bool _open = false;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => setState(() => _open = !_open),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        margin: const EdgeInsets.only(bottom: 8),
         decoration: BoxDecoration(
-          color: QVTheme.cardBg,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: _open ? QVTheme.teal.withOpacity(0.4) : QVTheme.cardBorder),
+          color: _open ? QVTheme.tealBg : Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: _open ? QVTheme.tealBorder : QVTheme.border),
         ),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-              child: Row(
-                children: [
-                  Expanded(child: Text(widget.q, style: QVTheme.h4().copyWith(fontSize: 17))),
-                  AnimatedRotation(
-                    turns: _open ? 0.5 : 0,
-                    duration: const Duration(milliseconds: 200),
-                    child: const Icon(Icons.keyboard_arrow_down, color: QVTheme.teal),
-                  ),
-                ],
+        child: Column(children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Row(children: [
+              Expanded(child: Text(widget.q,
+                  style: QVTheme.body(color: QVTheme.txtPrimary)
+                      .copyWith(fontWeight: FontWeight.w600))),
+              AnimatedRotation(
+                turns: _open ? 0.5 : 0,
+                duration: const Duration(milliseconds: 200),
+                child: const Icon(Icons.keyboard_arrow_down,
+                    color: QVTheme.tealMid),
               ),
-            ),
-            AnimatedSize(
-              duration: const Duration(milliseconds: 300),
-              child: _open
-                  ? Padding(
-                      padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                      child: Text(widget.a, style: QVTheme.body(color: QVTheme.textMuted)),
-                    )
-                  : const SizedBox.shrink(),
-            ),
-          ],
-        ),
+            ]),
+          ),
+          AnimatedSize(
+            duration: const Duration(milliseconds: 250),
+            child: _open
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+                    child: Text(widget.a, style: QVTheme.body()))
+                : const SizedBox.shrink(),
+          ),
+        ]),
       ),
     );
   }
 }
 
-// ─── CTA ───────────────────────────────────────────────────────────────────────
+// ─── CTA ─────────────────────────────────────────────────────────────────────
 class _CTASection extends StatelessWidget {
   const _CTASection();
 
@@ -978,63 +750,28 @@ class _CTASection extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: 60),
-      padding: const EdgeInsets.all(60),
+      margin: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: 40),
+      padding: const EdgeInsets.symmetric(vertical: 52, horizontal: 32),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [QVTheme.teal.withOpacity(0.15), QVTheme.navy, QVTheme.orange.withOpacity(0.1)],
-        ),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: QVTheme.teal.withOpacity(0.2)),
+        color: QVTheme.tealBg,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: QVTheme.tealBorder),
       ),
-      child: Column(
-        children: [
-          Text('Ready to Transform\nYour Career?',
-              style: QVTheme.display2(), textAlign: TextAlign.center),
-          const SizedBox(height: 16),
-          Text('Join 2000+ engineers who chose Quantum Vector.\nYour DevOps job is 90 days away.',
-              style: QVTheme.body(color: QVTheme.textMuted), textAlign: TextAlign.center),
-          const SizedBox(height: 36),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              QVButton(
-                label: 'Start Your Journey →',
-                onTap: () => context.go('/courses'),
-              ),
-              const SizedBox(width: 16),
-              QVButton(
-                label: 'Contact Us',
-                onTap: () => context.go('/about'),
-                variant: ButtonVariant.outline,
-              ),
-            ],
-          ),
-        ],
-      ),
+      child: Column(children: [
+        Text('Ready to Transform Your Career?',
+            style: QVTheme.display2(), textAlign: TextAlign.center),
+        const SizedBox(height: 10),
+        Text('Join 2000+ engineers. Pick your track and start today.',
+            style: QVTheme.body(), textAlign: TextAlign.center),
+        const SizedBox(height: 28),
+        Wrap(alignment: WrapAlignment.center, spacing: 12, runSpacing: 10, children: [
+          QVButton(label: 'AWS DevOps Track →',
+              onTap: () => context.go('/courses/aws-devops')),
+          QVButton(label: 'AI & LLM Track →',
+              onTap: () => context.go('/courses/ai-llm-bootcamp'),
+              variant: ButtonVariant.purple),
+        ]),
+      ]),
     );
   }
-}
-
-// ─── Grid Background Painter ───────────────────────────────────────────────────
-class _GridPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = QVTheme.teal.withOpacity(0.04)
-      ..strokeWidth = 1;
-
-    const step = 60.0;
-    for (double x = 0; x < size.width; x += step) {
-      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
-    }
-    for (double y = 0; y < size.height; y += step) {
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(_) => false;
 }
