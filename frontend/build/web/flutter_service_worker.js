@@ -3,8 +3,9 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
-const RESOURCES = {"assets/AssetManifest.bin": "0b0a3415aad49b6e9bf965ff578614f9",
-"assets/AssetManifest.bin.json": "a1fee2517bf598633e2f67fcf3e26c94",
+const RESOURCES = {"assets/AssetManifest.bin": "474aadb816fdb351be6dadb48549f5a8",
+"assets/AssetManifest.bin.json": "3f69c2351c8af0e3b692935b3e737f8d",
+"assets/assets/docs/QV_AWS_DevOps_Curriculum.pdf": "c7cffa60843dce3ffeca074c979fac36",
 "assets/FontManifest.json": "7b2a36307916a9721811788013e65289",
 "assets/fonts/MaterialIcons-Regular.otf": "0854bcfe47cb56b67e8e6ad4049a1d34",
 "assets/NOTICES": "29589b04d5013b6d77b7f40f04aa0f87",
@@ -24,7 +25,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "0b0a3415aad49b6e9bf965ff578614f9
 "canvaskit/skwasm_heavy.wasm": "b0be7910760d205ea4e011458df6ee01",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "flutter.js": "24bc71911b75b5f8135c949e27a2984e",
-"flutter_bootstrap.js": "96d363a0fd8a05060b4eaa20c93ccc3f",
+"flutter_bootstrap.js": "5dbb8f0c15b0c6247d53e818a3fb2ddf",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
