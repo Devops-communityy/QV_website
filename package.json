@@ -1,0 +1,14 @@
+{
+  "name": "quantum-vector-platform",
+  "version": "1.0.0",
+  "description": "Quantum Vector EdTech Platform — AI & DevOps Training",
+  "private": true,
+  "scripts": {
+    "install:backend": "cd backend && npm install",
+    "dev:backend": "cd backend && npm run dev",
+    "start:backend": "cd backend && npm start",
+    "build:frontend": "cd frontend && flutter build web --release --web-renderer canvaskit",
+    "build": "npm run build:frontend && npm run install:backend",
+    "vercel-build": "npm run build:frontend"
+  }
+}
