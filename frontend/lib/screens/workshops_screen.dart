@@ -1,3 +1,5 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../theme/qv_theme.dart';
@@ -189,7 +191,7 @@ class _WebinarCard extends StatelessWidget {
                       .copyWith(fontSize: 20, letterSpacing: -0.5)),
                   if (!done) ...[
                     const SizedBox(height: 10),
-                    QVButton(label: 'Learn More →', onTap: () {}, small: true),
+                    QVButton(label: 'Learn More →', onTap: () { html.window.open('https://rzp.io/rzp/G8XGnAom', '_blank'); }, small: true),
                     if (w.offer != null) ...[
                       const SizedBox(height: 6),
                       Text(w.offer!, style: QVTheme.bodySmall(color: QVTheme.orange)),

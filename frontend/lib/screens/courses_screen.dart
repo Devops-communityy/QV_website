@@ -329,7 +329,7 @@ class _FeeBox extends StatelessWidget {
         Text(w.enrollNote, style: QVTheme.bodySmall()),
         const SizedBox(height: 12),
         SizedBox(width: double.infinity, child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () { html.window.open('https://rzp.io/rzp/G8XGnAom', '_blank'); },
           style: ElevatedButton.styleFrom(
             backgroundColor: w.accentColor as Color,
             foregroundColor: Colors.white,
@@ -694,7 +694,7 @@ class _BottomCTA extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 14),
-        QVButton(label: "DM 'HELP' on Instagram", onTap: () {}),
+        QVButton(label: "DM 'HELP' on Instagram", onTap: () { html.window.open('https://rzp.io/rzp/G8XGnAom', '_blank'); }),
       ]),
     );
   }

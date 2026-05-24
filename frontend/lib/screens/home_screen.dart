@@ -1,3 +1,5 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -92,7 +94,7 @@ class _HeroDesktop extends StatelessWidget {
               const SizedBox(height: 32),
               Row(children: [
                 QVButton(label: 'Explore Courses →',
-                    onTap: () => context.go('/courses')),
+                    onTap: () { html.window.open('https://rzp.io/rzp/G8XGnAom', '_blank'); }),
                 const SizedBox(width: 14),
                 QVButton(label: 'View Webinars',
                     onTap: () => context.go('/webinars'),
@@ -146,7 +148,7 @@ class _HeroMobile extends StatelessWidget {
             style: QVTheme.body()),
         const SizedBox(height: 24),
         QVButton(label: 'Explore Courses →',
-            onTap: () => context.go('/courses'), fullWidth: true),
+            onTap: () { html.window.open('https://rzp.io/rzp/G8XGnAom', '_blank'); }, fullWidth: true),
         const SizedBox(height: 10),
         QVButton(label: 'View Webinars',
             onTap: () => context.go('/webinars'),
@@ -278,7 +280,7 @@ class _CoursesTrackSection extends StatelessWidget {
                     price: '₹22,000', priceSub: 'Pay ₹3,000 to enroll',
                     tags: ['Linux', 'Docker', 'Kubernetes', 'AWS', 'Terraform'],
                     accentColor: QVTheme.tealMid,
-                    onTap: () => context.go('/courses/aws-devops'),
+                    onTap: () { html.window.open('https://rzp.io/rzp/G8XGnAom', '_blank'); },
                   ),
                   const SizedBox(height: 16),
                   _TrackCard(
@@ -301,7 +303,7 @@ class _CoursesTrackSection extends StatelessWidget {
                     price: '₹22,000', priceSub: 'Pay ₹3,000 to enroll',
                     tags: ['Linux', 'Docker', 'Kubernetes', 'AWS', 'Terraform'],
                     accentColor: QVTheme.tealMid,
-                    onTap: () => context.go('/courses/aws-devops'),
+                    onTap: () { html.window.open('https://rzp.io/rzp/G8XGnAom', '_blank'); },
                   )),
                   const SizedBox(width: 20),
                   Expanded(child: _TrackCard(
@@ -766,7 +768,7 @@ class _CTASection extends StatelessWidget {
         const SizedBox(height: 28),
         Wrap(alignment: WrapAlignment.center, spacing: 12, runSpacing: 10, children: [
           QVButton(label: 'AWS DevOps Track →',
-              onTap: () => context.go('/courses/aws-devops')),
+              onTap: () { html.window.open('https://rzp.io/rzp/G8XGnAom', '_blank'); }),
           QVButton(label: 'AI & LLM Track →',
               onTap: () => context.go('/courses/ai-llm-bootcamp'),
               variant: ButtonVariant.purple),
